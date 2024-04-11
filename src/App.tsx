@@ -1,6 +1,9 @@
+import Login from "./components/Login/Login";
+
 function App() {
     return (
-        <div className="bg-pink-500">
+        <div>
+            <p>Home Page</p>
         </div>
     );
 }
