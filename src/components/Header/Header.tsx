@@ -1,4 +1,3 @@
-import React from 'react'
 import RightMenu from './RightMenu'
 
 function Header() {
