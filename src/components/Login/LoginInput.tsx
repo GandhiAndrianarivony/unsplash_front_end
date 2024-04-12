@@ -19,6 +19,7 @@ function LoginInput({ field, loginData, setLoginData }: PropsType) {
                         [currentField]: e.target.value,
                     })
                 }
+                required
             />
         </>
     );

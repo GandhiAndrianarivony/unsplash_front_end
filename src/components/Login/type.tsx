@@ -5,6 +5,6 @@ export type PropsType = {
 };
 
 export type LoginDataType = {
-    email: string;
+    username: string;
     password: string;
 };

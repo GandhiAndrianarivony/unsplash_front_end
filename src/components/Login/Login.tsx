@@ -1,15 +1,35 @@
 import { useState } from "react";
+import { useMutation } from "@apollo/client";
+
 import LoginInput from "./LoginInput";
 import { LoginDataType } from "./type";
+import { LOGIN_MUTATION } from "./gql/mutations";
 
 function Login() {
-    const initLoginData: LoginDataType = { email: "", password: "" };
+    const initLoginData: LoginDataType = { username: "", password: "" };
     const [loginData, setLoginData] = useState(initLoginData);
+    const [errorMessage, setErrorMessage] = useState("");
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const [tokenAuth, {}] = useMutation(LOGIN_MUTATION);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(loginData);
-        setLoginData(initLoginData)
+        try {
+            const { data } = await tokenAuth({
+                variables: {
+                    username: loginData.username,
+                    password: loginData.password,
+                },
+            });
+            if (!data.tokenAuth.success) {
+                setErrorMessage("Wrong password or username");
+            } else {
+                setLoginData(initLoginData);
+                setErrorMessage("");
+            }
+        } catch (error) {
+            console.log(`Login error: ${error}`);
+        }
     };
 
     return (
@@ -23,7 +43,7 @@ function Login() {
                 <div className="mt-4">
                     <form onSubmit={handleSubmit}>
                         <LoginInput
-                            field={"Email"}
+                            field={"Username"}
                             loginData={loginData}
                             setLoginData={setLoginData}
                         />
@@ -38,6 +58,7 @@ function Login() {
                         >
                             Login
                         </button>
+                        <p className="text-red-600 mt-3">{errorMessage}</p>
                     </form>
                 </div>
             </div>
