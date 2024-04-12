@@ -1,6 +1,9 @@
+import Header from "./components/Header/Header";
+
 function App() {
     return (
-        <div className="bg-pink-500">
+        <div className="bg-gray-200">
+            <Header/>
         </div>
     );
 }
