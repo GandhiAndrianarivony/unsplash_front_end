@@ -8,8 +8,10 @@ import Header from "../Header/Header";
 
 function Login() {
     const initLoginData: LoginDataType = { username: "", password: "" };
+
     const [loginData, setLoginData] = useState(initLoginData);
     const [errorMessage, setErrorMessage] = useState("");
+    const [login, setLogin] = useState(true);
 
     const [tokenAuth, {}] = useMutation(LOGIN_MUTATION);
 
@@ -26,6 +28,7 @@ function Login() {
                 setErrorMessage("Wrong password or username");
             } else {
                 setLoginData(initLoginData);
+                setLogin(false);
                 setErrorMessage("");
             }
         } catch (error) {
@@ -35,7 +38,7 @@ function Login() {
 
     return (
         <div>
-            <Header/>
+            <Header login={login} />
             <div className="flex justify-center items-center h-screen">
                 <div className="w-96 p-6">
                     <div className="text-center">
