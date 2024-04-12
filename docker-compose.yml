@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  unsplash_frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: dericsolen/unsplash_frontent:v1.0.0
+    entrypoint: npm run dev
+    ports:
+      - "9000:8080"
+    volumes:
+      - ".:/app"
