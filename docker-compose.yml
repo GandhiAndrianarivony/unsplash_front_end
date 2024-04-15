@@ -7,7 +7,19 @@ services:
       dockerfile: Dockerfile
     image: dericsolen/unsplash_frontent:v1.0.0
     entrypoint: npm run dev
+    env_file:
+      - ./.env
     ports:
-      - "9000:8080"
+      - "0.0.0.0:${VITE_FRONTEND_PORT}:8080"
     volumes:
       - ".:/app"
+    networks:
+      unsplash_network:
+        ipv4_address: ${FRONTEND_IP_ADDRESS}
+
+networks:
+  unsplash_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: ${FRONTEND_IP_ADDRESS_RANGE}

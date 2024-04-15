@@ -6,8 +6,13 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import router from "./router";
 import "./index.css";
 
+const env = import.meta.env;
+
+// URI: Backend graphQL endpoint
+const URI: string = `${env.VITE_BACKEND_PROTOCOL}://${env.VITE_BACKEND_IP_ADDRESS}:${env.VITE_BACKEND_PORT}${env.VITE_BACKEND_GQL_ENDPOINT}`;
+
 const client = new ApolloClient({
-    uri: import.meta.env.VITE_API_URL,
+    uri: URI,
     cache: new InMemoryCache(),
 });
 

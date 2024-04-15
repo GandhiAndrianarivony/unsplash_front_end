@@ -1,15 +1,18 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { config as dotenvConfig } from "dotenv";
+
+dotenvConfig();
 
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
     base: "/",
-    preview: { port: 8080, strictPort: true },
+    // preview: { port: 8080, strictPort: true },
     server: {
-        port: 8080,
-        strictPort: true,
-        host: true,
-        origin: "http://0.0.0.0:8080",
+        port: Number(process.env.FRONTEND_PORT),
+        // strictPort: true,
+        host: "0.0.0.0",
+        // origin: "http://0.0.0.0:8080",
     },
 });

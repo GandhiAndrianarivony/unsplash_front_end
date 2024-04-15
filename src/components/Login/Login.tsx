@@ -5,16 +5,17 @@ import LoginInput from "./LoginInput";
 import { LoginDataType } from "./type";
 import { LOGIN_MUTATION } from "./gql/mutations";
 import Header from "../Header/Header";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const initLoginData: LoginDataType = { username: "", password: "" };
+    const navigate = useNavigate();
 
     const [loginData, setLoginData] = useState(initLoginData);
+
     const [errorMessage, setErrorMessage] = useState("");
-    const [login, setLogin] = useState(true);
 
     const [tokenAuth, {}] = useMutation(LOGIN_MUTATION);
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
@@ -24,22 +25,23 @@ function Login() {
                     password: loginData.password,
                 },
             });
+
             if (!data.tokenAuth.success) {
                 setErrorMessage("Wrong password or username");
             } else {
+                localStorage.setItem("tokenAuth", data.tokenAuth.token.token);
                 setLoginData(initLoginData);
-                setLogin(false);
-                setErrorMessage("");
+                navigate("/");
             }
         } catch (error) {
             console.log(`Login error: ${error}`);
         }
     };
 
-    return (
+    const content = (
         <div>
-            <Header login={login} />
-            <div className="flex justify-center items-center h-screen">
+            <Header />
+            <div className="flex justify-center h-screen">
                 <div className="w-96 p-6">
                     <div className="text-center">
                         <h1 className="text-3xl block font-bold">Login</h1>
@@ -71,6 +73,8 @@ function Login() {
             </div>
         </div>
     );
+
+    return content
 }
 
 export default Login;

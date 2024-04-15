@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import PropsType from "./type";
-
-function RightMenu({ login }: PropsType) {
+function RightMenu() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [menuIcon, setMenuIcon] = useState("menu.svg");
 
@@ -12,9 +10,10 @@ function RightMenu({ login }: PropsType) {
         setMenuIcon(menuOpen ? "menu.svg" : "close.svg");
     };
 
-    const loginText = !login ? (
+    const authToken: string | null = localStorage.getItem("tokenAuth");
+    const loginText = !authToken ? (
         <Link
-            to="#"
+            to="/login"
             className="block text-gray-500 hover:text-gray-700 px-3 font-normal py-2"
         >
             Log in

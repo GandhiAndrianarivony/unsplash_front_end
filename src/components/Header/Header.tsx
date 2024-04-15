@@ -1,7 +1,6 @@
 import RightMenu from "./RightMenu";
-import PropsType from "./type";
 
-function Header({ login }: PropsType) {
+function Header() {
     return (
         <div className="flex items-center max-auto mb-12 py-3 md:grid-cols-3">
             <div>
@@ -33,7 +32,7 @@ function Header({ login }: PropsType) {
                     </div>
                 </form>
             </div>
-            <RightMenu login={login} />
+            <RightMenu/>
         </div>
     );
 }
