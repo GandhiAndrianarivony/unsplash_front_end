@@ -14,8 +14,8 @@ services:
     volumes:
       - ".:/app"
     networks:
-      unsplash_network:
-        ipv4_address: ${FRONTEND_IP_ADDRESS}
+      - unsplash_network
+        # ipv4_address: ${FRONTEND_IP_ADDRESS}
 
 networks:
   unsplash_network:
