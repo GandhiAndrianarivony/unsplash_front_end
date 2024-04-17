@@ -5,7 +5,7 @@ function UploadImage() {
 
   function handleChange(event:any) {
     setFile(event.target.files[0])
-    console.log("handled")
+    console.log(file)
   }
 
   return (
@@ -21,7 +21,7 @@ function UploadImage() {
                   </label>
               </div>
           </div>
-          <p className="text-xl text-center font-bold mt-3">Drag and drop up to 10 photos <br /> or browse to choose a file</p>
+          <p className="text-xl text-center font-bold mt-3">Drag and drop or browse<br /> to choose a file</p>
           <p className="text-sm mt-3">JPEG only - Max 50 MB</p>
         </div>
       </div>
