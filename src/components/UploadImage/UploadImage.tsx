@@ -5,25 +5,30 @@ function UploadImage() {
 
   function handleChange(event:any) {
     setFile(event.target.files[0])
-    console.log("handled")
+    console.log(file)
   }
 
   return (
-    <div className="container mx-auto mt-5">
-      <div className="flex justify-center">
-        <div className="bg-gray-200 rounded-lg pb-5">
-          <div className="">
-            <h1 className='text-4xl p-5'>Upload Image</h1>
-            <hr className="border-gray-400"/>
-          </div>
-          <div className="grid justify-items-center pt-5">
+    <div>
+      <div className="container mx-auto mt-5 w-3/4 h-[52rem] border-dashed border-2 border-gray-400 mb-5 flex justify-center items-center">
+        <div className="border-2 border-gray-400 p-5 flex flex-col justify-center items-center">
+          <div className="relative">
+            <img className="size-40" src="gallery-icon.webp" alt="Upload Image" />
+            <div className="absolute top-0 right-0">
               <label>
-                  <img className="border-dashed border-2 border-gray-400 rounded-lg cursor-pointer" src="upload-icon.png" alt="Upload Image" />
-                  <input type="file" className="hidden" onChange={handleChange}/>
-              </label>
-              {/* <button type="submit" className="bg-blue-500 mt-3 p-2 rounded-lg">Upload</button> */}
+                      <img className="cursor-pointer bg-yellow-500 rounded-full" src="plus.svg" alt="Upload Image" />
+                      <input type="file" className="hidden" onChange={handleChange}/>
+                  </label>
+              </div>
           </div>
+          <p className="text-xl text-center font-bold mt-3">Drag and drop or browse<br /> to choose a file</p>
+          <p className="text-sm mt-3">JPEG only - Max 50 MB</p>
         </div>
+      </div>
+      <hr />
+      <div className="flex justify-end mt-3">
+        <button type="button" className="border rounded-lg px-3 mr-4 hover:bg-black hover:text-white">Cancel</button>
+        <button type="button" className="bg-black text-white rounded-lg px-3 mr-4 hover:border hover:bg-white hover:text-black">Submit</button>
       </div>
     </div>
   )
