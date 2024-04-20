@@ -1,15 +1,22 @@
 type ProsType = {
-    label: String;
+    label?: String;
+    type: "submit" | "reset" | "button" | undefined;
+    className?: string;
+    children?: React.ReactElement;
+    onClick?: () => void;
 };
 
-function Button({ label }: ProsType) {
+function Button({ label, type, className, children, onClick }: ProsType) {
+    const handleClick = () => {
+        if (onClick) {
+            onClick();
+        }
+    };
     return (
         <>
-            <button
-                className="bg-black w-full mt-5 text-white px-2 py-2"
-                type="submit"
-            >
+            <button className={className} type={type} onClick={handleClick}>
                 {label}
+                {children}
             </button>
         </>
     );

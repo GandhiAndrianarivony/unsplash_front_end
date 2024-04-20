@@ -1,18 +1,20 @@
 import App from "./App.tsx";
-import Login from "./components/Login/Login.tsx";
 import { Navigate, createBrowserRouter } from "react-router-dom";
-import ErrorPage from "./components/PageNotFound/PageNotFound.tsx";
+import ErrorPage from "./pages/PageNotFound.tsx";
 import UploadImage from "./components/UploadImage/UploadImage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
+import HomePage from "./pages/HomePage.tsx";
 
 const authToken: String | null = localStorage.getItem("tokenAuth");
 console.log(authToken);
 
 const router = createBrowserRouter([
-    { path: "/", element: <App />, errorElement: <ErrorPage /> },
-    {path: "/upload_image", element: <UploadImage/> },
-    { path: "/login", element: !authToken ? <Login /> : <Navigate to="/"/> },
-    { path: "/loginPage", element: <LoginPage/>},
+    { path: "/", element: <HomePage />, errorElement: <ErrorPage /> },
+    { path: "/upload_image", element: <UploadImage /> },
+    {
+        path: "/loginPage",
+        element: !authToken ? <LoginPage /> : <Navigate to="/" />,
+    },
 ]);
 
 export default router;
