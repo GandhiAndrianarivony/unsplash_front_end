@@ -16,7 +16,7 @@ function UploadImage() {
             <img className="size-40" src="gallery-icon.webp" alt="Upload Image" />
             <div className="absolute top-0 right-0">
               <label>
-                      <img className="cursor-pointer bg-yellow-500 rounded-full" src="plus.svg" alt="Upload Image" />
+                      <img className="cursor-pointer bg-yellow-500 hover:bg-yellow-400 rounded-full" src="plus.svg" alt="Upload Image" />
                       <input type="file" className="hidden" onChange={handleChange}/>
                   </label>
               </div>
