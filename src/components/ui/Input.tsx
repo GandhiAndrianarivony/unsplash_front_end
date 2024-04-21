@@ -4,11 +4,12 @@ type PropsType = {
     type: string;
     label?: string;
     onChange?: (e: any) => void;
+    onClick?: () => void;
     className?: string;
-    arial_label: string
+    arial_label: string;
 };
 
-function Input({ type, label, onChange, className, arial_label }: PropsType) {
+function Input({ type, label, onChange, onClick, className, arial_label }: PropsType) {
     const htmlFor = generateRandomString();
 
     return (
@@ -27,6 +28,11 @@ function Input({ type, label, onChange, className, arial_label }: PropsType) {
                 onChange={(e) => {
                     if (onChange) {
                         onChange(e.target.value);
+                    }
+                }}
+                onClick={() => {
+                    if (onClick){
+                        onClick()
                     }
                 }}
             />

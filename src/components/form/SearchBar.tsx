@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 
@@ -15,7 +16,9 @@ function SearchBar() {
                 <div className="relative">
                     <div className="flex ">
                         <div className="pt-2">
-                            <FaHome size={"2.5rem"} />
+                            <Link to="/">
+                                <FaHome size={"2.5rem"} />
+                            </Link>
                         </div>
                         <div className="w-full">
                             <Input
@@ -25,9 +28,9 @@ function SearchBar() {
                             />
                         </div>
                     </div>
-                    <div className="absolute top-2 left-0 ml-[50px]">
+                    <div className="absolute top-4 left-0 ml-[60px]">
                         <Button type="submit" className="rounded-full">
-                            <CiSearch size={"2.5rem"} />
+                            <CiSearch size={"1.5rem"} />
                         </Button>
                     </div>
                 </div>

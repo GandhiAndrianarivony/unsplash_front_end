@@ -1,4 +1,3 @@
-import App from "./App.tsx";
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import ErrorPage from "./pages/PageNotFound.tsx";
 import UploadImage from "./components/UploadImage/UploadImage.tsx";

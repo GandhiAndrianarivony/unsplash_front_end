@@ -3,11 +3,13 @@ import Button from "../../../components/ui/Button";
 import Input from "../../../components/ui/Input";
 import { useMutation } from "@apollo/client";
 import AUTHENTICATE_USER from "../../../graphql/mutations/authenticateUser";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const initAuthData = { username: "", password: "" };
     const [authData, setAuthData] = useState(initAuthData);
     const [errorrMesssage, setErrorMessage] = useState("");
+    const navigate = useNavigate();
 
     const [authenticateUser, {}] = useMutation(AUTHENTICATE_USER);
 
@@ -30,6 +32,7 @@ function Login() {
                 localStorage.setItem("tokenAuth", data.tokenAuth.token.token);
                 // Re-initialize authData to empty
                 setAuthData(initAuthData);
+                navigate("/");
             }
         } catch (error) {
             console.log(`Login error: ${error}`);
