@@ -1,6 +1,6 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import ErrorPage from "./pages/PageNotFound.tsx";
-import UploadImage from "./components/UploadImage/UploadImage.tsx";
+import UploadImage from "./features/fileUpload/components/UploadImage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import HomePage from "./pages/HomePage.tsx";
 
