@@ -5,7 +5,7 @@ import Button from "../../../components/ui/Button";
 
 export default function UploadImage() {
     const authToken = localStorage.getItem("tokenAuth");
-    const [file, setFile] = useState();
+    const [file, setFile] = useState<File | null>(null);
 
     const [uploadImage, {}] = useMutation(UPLOAD_IMAGE, {
         context: {
@@ -15,23 +15,16 @@ export default function UploadImage() {
         },
     });
 
-    const handleChange = (event: any) => {
-        setFile(event.target.files[0]);
-        console.log(event);
-    };
-
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if (file) {
-            const formData = new FormData();
-            formData.append("file", file);
-            
             try {
                 const response = await uploadImage({
-                    variables: { file: formData },
+                    variables: { file: file },
                 });
-                console.log("Image uploaded: ", response.data.uploadImage.url);
+                console.log(response);
+                console.log("File Uploaded");
             } catch (error) {
                 console.log("Error uploading image: ", error);
             }
@@ -61,7 +54,17 @@ export default function UploadImage() {
                                     <input
                                         type="file"
                                         className="hidden"
-                                        onChange={handleChange}
+                                        onChange={({
+                                            target: { validity, files: file },
+                                        }) => {
+                                            if (
+                                                validity.valid &&
+                                                file &&
+                                                file.length
+                                            ) {
+                                                setFile(file[0]);
+                                            }
+                                        }}
                                     />
                                 </label>
                             </div>
