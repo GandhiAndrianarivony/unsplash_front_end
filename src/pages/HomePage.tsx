@@ -3,7 +3,7 @@ import ImageList from "../components/images/ImageList";
 
 function HomePage() {
     return (
-        <div className="pt-10">
+        <div>
             <Header />
             <ImageList />
         </div>

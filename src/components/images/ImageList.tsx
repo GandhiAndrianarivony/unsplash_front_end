@@ -14,7 +14,7 @@ function ImageList() {
 
     return (
         <div className="container mx-auto">
-            <div className="w-full mx-auto gap-4 columns-1 md:columns-3 space-y-5">
+            <div className="w-full mx-auto gap-4 columns-1 md:columns-3 space-y-4">
                 {data.getImages.edges.map((item: any) => (
                     <ImageItem key={item.node.id} item={item} />
                 ))}
