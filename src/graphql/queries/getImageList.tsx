@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 const GET_IMAGES = gql`
     query MyQuery {
-        getImages(first: 20, after: "YXJyYXljb25uZWN0aW9uOjE2") {
+        getImages(first: 50) {
             edges {
                 node {
                     aiDescription
