@@ -16,9 +16,10 @@ type NodeType = {
     fileName: string;
     id: string;
     imageUrl?: ImageUrlType;
+    user: { profile: { baseUrl: string }, username: string };
 };
 
-type PropsType = {
+export type PropsType = {
     item: { node: NodeType };
     className?: string;
 };
