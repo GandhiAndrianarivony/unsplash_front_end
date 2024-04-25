@@ -14,7 +14,7 @@ function SearchBar() {
         <>
             <form onSubmit={handleSubmit}>
                 <div className="relative">
-                    <div className="flex ">
+                    <div className="flex">
                         <div className="pt-2">
                             <Link to="/">
                                 <FaHome size={"2.5rem"} />
