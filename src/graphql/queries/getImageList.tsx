@@ -13,6 +13,10 @@ const GET_IMAGES = gql`
                     description
                     fileName
                     id
+                    imageUrl {
+                        height
+                        width
+                      }
                 }
             }
             pageInfo {
