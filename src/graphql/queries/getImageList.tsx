@@ -16,7 +16,13 @@ const GET_IMAGES = gql`
                     imageUrl {
                         height
                         width
-                      }
+                    }
+                    user {
+                        profile {
+                            baseUrl
+                        }
+                        username
+                    }
                 }
             }
             pageInfo {

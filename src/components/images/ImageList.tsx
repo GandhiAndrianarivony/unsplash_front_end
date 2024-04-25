@@ -7,6 +7,7 @@ import { IoMdArrowDown } from "react-icons/io";
 import GET_IMAGES from "../../graphql/queries/getImageList";
 import ImageItem from "./ImageItem";
 import Button from "../ui/Button";
+import UserProfile from "../users/UserProfile";
 
 function ImageList(): string | JSX.Element {
     const { loading, error, data } = useQuery(GET_IMAGES);
@@ -49,6 +50,19 @@ function ImageList(): string | JSX.Element {
                             className={`bottom-0 right-[20px] mb-5 p-1 ${buttonCommonClass}`}
                         >
                             <IoMdArrowDown size="30px" />
+                        </Button>
+
+                        <Button
+                            type="button"
+                            className={`bottom-0 left-[20px] p-1 mb-3 absolute`}
+                        >
+                            <div className="flex">
+                                <UserProfile
+                                    className="w-[36px] h-[36px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white p1 cursor-pointer"
+                                    profile={item.node.user.profile.baseUrl}
+                                />
+                                <div className="ml-2 text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity">{item.node.user.username}</div>
+                            </div>
                         </Button>
                     </div>
                 ))}
