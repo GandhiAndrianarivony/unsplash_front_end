@@ -23,7 +23,7 @@ const client = new ApolloClient({
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <ApolloProvider client={client}>
-            <RouterProvider router={router} />
+            <RouterProvider router={router}/>
         </ApolloProvider>
     </React.StrictMode>
 );
