@@ -1,25 +1,23 @@
 import { useMutation } from "@apollo/client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import UPLOAD_IMAGE from "../../../graphql/mutations/uploadImage";
 import Button from "../../../components/ui/Button";
 import Header from "../../../components/Header";
 import InputImage from "./InputImage";
 import ImageDisplayed from "./ImageDisplayed";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { convertToDate } from "../../../utils/helpers";
+
+type DecodedJWTType = {
+    payload: string;
+};
 
 export default function UploadImage() {
-    const authToken = localStorage.getItem("tokenAuth");
-
+    const [authToken, setAuthToken] = useState<string | null>(
+        localStorage.getItem("tokenAuth")
+    );
     const navigate = useNavigate();
-    useEffect(() => {
-        const navigateTo = () => {
-            if (!authToken) {
-                navigate("/loginPage");
-            }
-        };
-        navigateTo();
-    }, []);
-
     const [file, setFile] = useState<Blob | MediaSource>();
     const [isImageLoaded, setIsImageLoaded] = useState(false);
 
@@ -30,6 +28,30 @@ export default function UploadImage() {
             },
         },
     });
+
+    useEffect(() => {
+        const navigateToLoginPage = () => {
+            if (authToken) {
+                const decodedJWTToken = jwtDecode<DecodedJWTType>(authToken);
+
+                // Convert expired date to milliseconds
+                const expiredAt = convertToDate(
+                    JSON.parse(decodedJWTToken.payload).exp
+                );
+                // get current date in milliseconds
+                const currentDate = new Date().getTime();
+                // Check if Authentication token is expired
+                if (expiredAt - currentDate <= 0) {
+                    setAuthToken(null);
+                    localStorage.removeItem("tokenAuth");
+                    navigate("/loginPage");
+                }
+            } else {
+                navigate("/loginPage");
+            }
+        };
+        navigateToLoginPage();
+    }, [authToken]);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

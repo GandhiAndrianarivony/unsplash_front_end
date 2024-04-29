@@ -8,4 +8,12 @@ const generateRandomString = (lenght: number = 5): string => {
     return result;
 };
 
-export { generateRandomString };
+const convertToDate = (date_string: string): number => {
+    const [datePart, millisecondsPart] = date_string.split(".");
+    const date = new Date(datePart);
+
+    const milliseconds = parseInt(millisecondsPart);
+    return date.setMilliseconds(milliseconds);
+};
+
+export { generateRandomString, convertToDate };
