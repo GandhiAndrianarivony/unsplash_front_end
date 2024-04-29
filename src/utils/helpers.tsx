@@ -8,11 +8,4 @@ const generateRandomString = (lenght: number = 5): string => {
     return result;
 };
 
-const logout = (): void => {
-    const tokenAuth = localStorage.getItem("tokenAuth");
-    if (tokenAuth) {
-        localStorage.removeItem("tokenAuth");
-    }
-};
-
 export { generateRandomString };
