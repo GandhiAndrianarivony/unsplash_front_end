@@ -3,7 +3,7 @@ import Button from "../../../components/ui/Button";
 import Input from "../../../components/ui/Input";
 import { useMutation } from "@apollo/client";
 import AUTHENTICATE_USER from "../../../graphql/mutations/authenticateUser";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
     const initAuthData = { username: "", password: "" };
@@ -69,6 +69,10 @@ function Login() {
                         className="bg-black font-bold w-full mt-5 text-white px-2 py-2"
                     />
                     <p className="text-red-600 mt-3">{errorrMesssage}</p>
+                    <div>
+                        You are not a member ?  
+                        <Link to="/signupPage" className="text-blue-600 hover:text-blue-600/50"> Register now</Link>
+                    </div>
                 </form>
             </div>
         </div>
