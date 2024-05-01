@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../../components/ui/Button";
-import Input from "../../components/ui/Input";
+import Button from "../../../components/ui/Button";
+import Input from "../../../components/ui/Input";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import CREATE_USER from "../../graphql/mutations/signUp";
+import CREATE_USER from "../../../graphql/mutations/signUp";
 
 function SignUp() {
     const navigate = useNavigate();
@@ -26,8 +26,6 @@ function SignUp() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // console.log(`User created with success: ${userData.username}`);
-
         try {
             //Send signup data to the server
             const response = await createUser({
@@ -43,29 +41,23 @@ function SignUp() {
                     password: userData.password,
                 },
             });
+
+            navigate("/loginPage");
             console.log(response);
-
-            const { data } = response;
-
-            // Assuming the GraphQL mutation returns a success flag
-            if (data.createUser.success) {
-                // Redirect to login page or any other appropriate page
-                navigate("/");
-            } else {
-                // Handle signup failure
-                setErrorMessage("Failed to create user");
-            }
+    
         } catch (error) {
             console.log(`SignUp error : ${error}`);
+            setErrorMessage(`Failed to create user : ${ error }`);
         }
     };
 
     return (
-        <div className="flex justify-center mt-5">
+        <div className="flex justify-center">
             <div className="w-96">
                 <div className="text-center">
                     <h1 className="text-3xl block font-bold">Join Unsplash</h1>
                     <p>Welcome</p>
+                    <p className="text-red-600 mt-3">{errorrMesssage}</p>
                 </div>
                 <form onSubmit={handleSubmit} className="mt-4">
                     <Input
@@ -156,12 +148,17 @@ function SignUp() {
                     <Button
                         label="Create account"
                         type="submit"
-                        className="bg-black rounded font-bold w-full mt-5 text-white px-2 py-2 hover:bg-grey-400"
+                        className="bg-black rounded font-bold w-full mt-5 text-white p-2"
                     />
-                    <p className="text-red-600 mt-3">{errorrMesssage}</p>
                     <div>
-                        Already have an account ?  
-                        <Link to="/loginPage" className="text-blue-600 hover:text-blue-600/50"> Log in</Link>
+                        Already have an account ?
+                        <Link
+                            to="/loginPage"
+                            className="text-blue-600 hover:text-blue-600/50"
+                        >
+                            {" "}
+                            Log in
+                        </Link>
                     </div>
                 </form>
             </div>

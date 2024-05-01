@@ -20,6 +20,8 @@ export default function UploadImage() {
     const navigate = useNavigate();
     const [file, setFile] = useState<Blob | MediaSource>();
     const [isImageLoaded, setIsImageLoaded] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
 
     const [uploadImage, {}] = useMutation(UPLOAD_IMAGE, {
         context: {
@@ -63,8 +65,10 @@ export default function UploadImage() {
                 });
                 setIsImageLoaded(false);
                 console.log(response);
+                setSuccessMessage("Image uploaded successfully");
             } catch (error) {
                 console.log("Error uploading image: ", error);
+                setErrorMessage(`An error occurred while uploading image: ${error}`);
             }
         }
 
@@ -78,7 +82,8 @@ export default function UploadImage() {
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col items-center justify-center w-full h-svh">
                     <div className="text-2xl font-bold mb-5">Upload Image</div>
-
+                    <p className="text-green-600 mb-3">{successMessage}</p>
+                    <p className="text-red-600 mb-3">{errorMessage}</p>
                     <label className="flex flex-col items-center justify-center w-3/4 md:w-1/3 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100">
                         <ImageDisplayed
                             file={file}
@@ -107,6 +112,7 @@ export default function UploadImage() {
                             className="bg-black text-white rounded-lg px-3 mr-4 hover:border hover:bg-white hover:text-black"
                         />
                     </div>
+                    
                 </div>
             </form>
         </div>
