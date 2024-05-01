@@ -11,7 +11,7 @@ import { useEffect } from "react";
 
 type PropsType = {
     setText?: React.Dispatch<React.SetStateAction<string | null>>;
-    setSearchData?: React.Dispatch<React.SetStateAction<never[]>>;
+    setSearchData?: React.Dispatch<any>;
     text?: string | null;
 };
 
@@ -41,7 +41,17 @@ function SearchBar({ setSearchData, setText, text }: PropsType) {
             <div className="relative">
                 <div className="flex">
                     <div className="pt-2">
-                        <Link to="/">
+                        <Link
+                            to="/"
+                            onClick={() => {
+                                if (setSearchData) {
+                                    setSearchData(null);
+                                }
+                                if (setText) {
+                                    setText("");
+                                }
+                            }}
+                        >
                             <FaHome size={"2.5rem"} />
                         </Link>
                     </div>
@@ -54,6 +64,11 @@ function SearchBar({ setSearchData, setText, text }: PropsType) {
                             onChange={(value) => {
                                 if (setText) {
                                     setText(value);
+                                }
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    handleClick();
                                 }
                             }}
                         />
@@ -69,7 +84,6 @@ function SearchBar({ setSearchData, setText, text }: PropsType) {
                     </Button>
                 </div>
             </div>
-            {/* </form> */}
         </>
     );
 }

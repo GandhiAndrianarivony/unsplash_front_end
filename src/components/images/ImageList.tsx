@@ -20,14 +20,15 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
     if (error) return `Error: ${error}`;
 
     const buttonIconSize = "20px";
-
     const buttonCommonClass =
         "absolute rounded-md bg-gray-200 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white p1 cursor-pointer";
+
+    const images = searchedData ?? data.getImages;
 
     return (
         <div className="container w-2/3 mx-auto">
             <div className="w-full gap-4 columns-1 md:columns-3 space-y-4">
-                {data.getImages.edges.map((item: any) => (
+                {images.edges.map((item: any) => (
                     <div
                         key={item.node.id}
                         className="relative group border-none"

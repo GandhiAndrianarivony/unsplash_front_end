@@ -8,16 +8,18 @@ type PropsType = {
     className?: string;
     arial_label: string;
     value?: any;
+    onKeyDown?: (e: any) => void;
 };
 
 function Input({
     type,
     label,
-    onChange,
-    onClick,
     className,
     arial_label,
     value,
+    onChange,
+    onClick,
+    onKeyDown,
 }: PropsType) {
     const htmlFor = generateRandomString();
 
@@ -43,6 +45,11 @@ function Input({
                 onClick={() => {
                     if (onClick) {
                         onClick();
+                    }
+                }}
+                onKeyDown={(e) => {
+                    if (onKeyDown) {
+                        onKeyDown(e);
                     }
                 }}
             />
