@@ -1,11 +1,13 @@
-import SignUp from "../features/Registration/SignUp"
+import Header from "../components/Header";
+import SignUp from "../features/Registration/components/SignUp";
 
 function RegisterPage() {
-  return (
-    <div>
-        <SignUp/>
-    </div>
-  )
+    return (
+        <div>
+            <Header />
+            <SignUp />
+        </div>
+    );
 }
 
-export default RegisterPage
+export default RegisterPage;
