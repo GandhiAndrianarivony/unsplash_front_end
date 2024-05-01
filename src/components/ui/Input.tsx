@@ -7,6 +7,7 @@ type PropsType = {
     onClick?: () => void;
     className?: string;
     arial_label: string;
+    value?: any;
 };
 
 function Input({
@@ -16,6 +17,7 @@ function Input({
     onClick,
     className,
     arial_label,
+    value,
 }: PropsType) {
     const htmlFor = generateRandomString();
 
@@ -32,6 +34,7 @@ function Input({
                 id={htmlFor}
                 aria-label={arial_label}
                 type={type}
+                value={value}
                 onChange={(e) => {
                     if (onChange) {
                         onChange(e.target.value);

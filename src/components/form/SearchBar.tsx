@@ -1,40 +1,75 @@
 import { Link } from "react-router-dom";
+import { useLazyQuery } from "@apollo/client";
+
 import Button from "../ui/Button";
 import Input from "../ui/Input";
+import GET_SEARCH_IMAGES from "../../graphql/queries/getSearchImageList";
 
 import { CiSearch } from "react-icons/ci";
 import { FaHome } from "react-icons/fa";
+import { useEffect } from "react";
 
-function SearchBar() {
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log("Search Image");
+type PropsType = {
+    setText?: React.Dispatch<React.SetStateAction<string | null>>;
+    setSearchData?: React.Dispatch<React.SetStateAction<never[]>>;
+    text?: string | null;
+};
+
+function SearchBar({ setSearchData, setText, text }: PropsType) {
+    // Query being used based on user event (-> onSubmit)
+    const [getSearchImageList, { loading, error, data }] =
+        useLazyQuery(GET_SEARCH_IMAGES);
+
+    // Hanlde form submission
+    const handleClick = () => {
+        getSearchImageList({
+            variables: { search: text },
+        });
     };
+
+    useEffect(() => {
+        if (data && setSearchData) {
+            setSearchData(data.searches);
+        }
+    }, [data]);
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error! {error.message}</p>;
+
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <div className="relative">
-                    <div className="flex">
-                        <div className="pt-2">
-                            <Link to="/">
-                                <FaHome size={"2.5rem"} />
-                            </Link>
-                        </div>
-                        <div className="w-full">
-                            <Input
-                                className="w-full border border-gray-300 rounded-full focus:outline-gray-300 h-[2.5rem] px-[2.5rem] ml-2"
-                                type="search"
-                                arial_label="search-image"
-                            />
-                        </div>
+            <div className="relative">
+                <div className="flex">
+                    <div className="pt-2">
+                        <Link to="/">
+                            <FaHome size={"2.5rem"} />
+                        </Link>
                     </div>
-                    <div className="absolute top-4 left-0 ml-[60px]">
-                        <Button type="submit" className="rounded-full">
-                            <CiSearch size={"1.5rem"} />
-                        </Button>
+                    <div className="w-full">
+                        <Input
+                            className="w-full border border-gray-300 rounded-full focus:outline-gray-300 h-[2.5rem] px-[2.5rem] ml-2"
+                            type="search"
+                            arial_label="search-image"
+                            value={text}
+                            onChange={(value) => {
+                                if (setText) {
+                                    setText(value);
+                                }
+                            }}
+                        />
                     </div>
                 </div>
-            </form>
+                <div className="absolute top-4 left-0 ml-[60px]">
+                    <Button
+                        type="button"
+                        className="rounded-full"
+                        onClick={() => handleClick()}
+                    >
+                        <CiSearch size={"1.5rem"} />
+                    </Button>
+                </div>
+            </div>
+            {/* </form> */}
         </>
     );
 }

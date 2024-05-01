@@ -9,8 +9,11 @@ import ImageItem from "./ImageItem";
 import Button from "../ui/Button";
 import UserProfile from "../users/UserProfile";
 
-function ImageList(): string | JSX.Element {
-    // useCallback(()=>{}, [])
+type PropsType = {
+    searchedData?: any;
+};
+
+function ImageList({ searchedData }: PropsType): string | JSX.Element {
     const { loading, error, data } = useQuery(GET_IMAGES);
 
     if (loading) return "Loading ...";
