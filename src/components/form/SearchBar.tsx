@@ -16,6 +16,7 @@ type PropsType = {
 };
 
 function SearchBar({ setSearchData, setText, text }: PropsType) {
+
     // Query being used based on user event (-> onSubmit)
     const [getSearchImageList, { loading, error, data }] =
         useLazyQuery(GET_SEARCH_IMAGES);

@@ -14,7 +14,9 @@ type PropsType = {
 };
 
 function ImageList({ searchedData }: PropsType): string | JSX.Element {
-    const { loading, error, data } = useQuery(GET_IMAGES);
+    const { loading, error, data } = useQuery(GET_IMAGES, {
+        pollInterval: 500,
+    });
 
     if (loading) return "Loading ...";
     if (error) return `Error: ${error}`;
