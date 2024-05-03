@@ -5,25 +5,23 @@ import Button from "../ui/Button";
 import { useState } from "react";
 import TextMenu from "./TextMenu";
 import ButtonMenu from "./ButtonMenu";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { logout } from "../../features/authentication/utils/helpers";
+// import { useQuery } from "@apollo/client";
+// import GET_CURRENT_USER from "../../graphql/queries/getCurrentUser";
+import UserIconMenu from "./UserIconMenu";
 
 type PropsType = {
-    isIconClicked?: boolean;
-    setIsIconClicked?: React.Dispatch<React.SetStateAction<boolean>>;
-    username?: string;
+    isIconClicked?: boolean | null | undefined;
+    setIsIconClicked?: () => void;
+    username?: string
 };
 
-function ListMenu({
-    isIconClicked = false,
-    setIsIconClicked,
-    username = "deric", // TODO
-}: PropsType) {
+function ListMenu({ isIconClicked = false, setIsIconClicked, username }: PropsType) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [authToken, setAuthToken] = useState<string | null>(
         localStorage.getItem("tokenAuth")
     );
-
     const navigate = useNavigate();
 
     // CSS of the menu
@@ -47,7 +45,10 @@ function ListMenu({
                         className={`block md:hidden w-40 bg-gray-100 rounded-md px-1 py-1`}
                     >
                         <TextMenu className={textMenuBlockStyle} />
-                        <ButtonMenu authToken={authToken} className={buttonMenuBlockStyle} />
+                        <ButtonMenu
+                            authToken={authToken}
+                            className={buttonMenuBlockStyle}
+                        />
                     </div>
                 </div>
             </div>
@@ -57,37 +58,19 @@ function ListMenu({
     let userIconMenu = <p></p>;
     if (isIconClicked) {
         userIconMenu = (
-            // <div className="relative">
-            <div className="absolute w-48 right-4 mt-[48px] rounded-lg border-2 border-gray-400 hover:border-gray-500 bg-white">
-                <div className="px-2 py-2">
-                    <div className={userIconMenuClassName}>
-                        <Link to="#">View Profile</Link>
-                    </div>
-                    <div className={userIconMenuClassName}>
-                        <Link to="#">Stats</Link>
-                    </div>
-                    <div className={userIconMenuClassName}>
-                        <Link to="#">Account setting</Link>
-                    </div>
-                    <hr className="mb-2" />
-                    <div className={userIconMenuClassName}>
-                        <Link
-                            to="/"
-                            onClick={() => {
-                                if (setIsIconClicked) {
-                                    setIsIconClicked(false);
-                                }
-                                logout();
-                                navigate("/");
-                                setAuthToken(null);
-                            }}
-                        >
-                            Logout @{username}
-                        </Link>
-                    </div>
-                </div>
-            </div>
-            // </div>
+            <UserIconMenu
+                userIconMenuClassName={userIconMenuClassName}
+                username={username}
+                onLogout={() => {
+                    if (setIsIconClicked) {
+                        setIsIconClicked();
+                    }
+                    logout();
+                    navigate("/");
+                    setAuthToken(null);
+                }}
+                onClick={(e) => e.stopPropagation()}
+            />
         );
     }
 

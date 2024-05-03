@@ -8,12 +8,20 @@ type PropsType = {
     setText?: React.Dispatch<React.SetStateAction<string | null>>;
     setSearchData?: React.Dispatch<any>;
     text?: string | null;
+    isIconClicked?: boolean | null;
+    setIsIconClicked?: (e: boolean) => void;
 };
 
-function Header({ setSearchData, setText, text }: PropsType) {
+function Header({
+    setSearchData,
+    setText,
+    text,
+    isIconClicked,
+    setIsIconClicked,
+}: PropsType) {
     const authToken = localStorage.getItem("tokenAuth");
-    const [isIconClicked, setIsIconClicked] = useState(false);
-        
+    const [username, setUsername] = useState("");
+
     return (
         <div className="pb-[80px]">
             <div className="flex fixed w-[100%] bg-white z-50">
@@ -25,12 +33,28 @@ function Header({ setSearchData, setText, text }: PropsType) {
                     />
                 </div>
                 <div className="pt-4">
-                    <ListMenu isIconClicked={isIconClicked} setIsIconClicked={setIsIconClicked} />
+                    <ListMenu
+                        username={username}
+                        isIconClicked={isIconClicked}
+                        setIsIconClicked={() => {
+                            if (setIsIconClicked) {
+                                setIsIconClicked(false);
+                            }
+                        }}
+                    />
                 </div>
                 {!isAuthTokenExpired(authToken) ? (
-                    <div className="pt-3 mr-4">
+                    <div
+                        className="pt-3 mr-4"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <User
-                            setIsIconClicked={() => setIsIconClicked(!isIconClicked)}
+                            setUsername={setUsername}
+                            setIsIconClicked={() => {
+                                if (setIsIconClicked) {
+                                    setIsIconClicked(!isIconClicked);
+                                }
+                            }}
                             authToken={authToken}
                         />
                     </div>
