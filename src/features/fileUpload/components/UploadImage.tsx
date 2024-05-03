@@ -5,12 +5,7 @@ import Button from "../../../components/ui/Button";
 import InputImage from "./InputImage";
 import ImageDisplayed from "./ImageDisplayed";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-import { convertToDate } from "../../../utils/helpers";
-
-type DecodedJWTType = {
-    payload: string;
-}; 
+import { isAuthTokenExpired } from "../../../utils/helpers";
 
 export default function UploadImage() {
     const [authToken, setAuthToken] = useState<string | null>(
@@ -33,16 +28,8 @@ export default function UploadImage() {
     useEffect(() => {
         const navigateToLoginPage = () => {
             if (authToken) {
-                const decodedJWTToken = jwtDecode<DecodedJWTType>(authToken);
-
-                // Convert expired date to milliseconds
-                const expiredAt = convertToDate(
-                    JSON.parse(decodedJWTToken.payload).exp
-                );
-                // get current date in milliseconds
-                const currentDate = new Date().getTime();
-                // Check if Authentication token is expired
-                if (expiredAt - currentDate <= 0) {
+                console.log(isAuthTokenExpired(authToken));
+                if (isAuthTokenExpired(authToken)) {
                     setAuthToken(null);
                     localStorage.removeItem("tokenAuth");
                     navigate("/loginPage");
@@ -74,7 +61,9 @@ export default function UploadImage() {
                 setSuccessMessage("Image uploaded successfully");
             } catch (error) {
                 console.log("Error uploading image: ", error);
-                setErrorMessage(`An error occurred while uploading image: ${error}`);
+                setErrorMessage(
+                    `An error occurred while uploading image: ${error}`
+                );
             }
         }
 
@@ -116,7 +105,6 @@ export default function UploadImage() {
                             className="bg-black text-white rounded-lg px-3 mr-4 hover:border hover:scale-95"
                         />
                     </div>
-                    
                 </div>
             </form>
         </div>
