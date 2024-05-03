@@ -25,6 +25,19 @@ export default function UploadImage() {
         },
     });
 
+    // useEffect(() => {
+    //     const navigateToLoginPage = () => {
+    //         if (isAuthTokenExpired(authToken)) {
+    //             setAuthToken(null);
+    //             localStorage.removeItem("tokenAuth");
+    //             navigate("/loginPage");
+    //         } else {
+    //             navigate("/loginPage");
+    //         }
+    //     };
+    //     navigateToLoginPage();
+    // }, [authToken]);
+
     useEffect(() => {
         const navigateToLoginPage = () => {
             if (authToken) {

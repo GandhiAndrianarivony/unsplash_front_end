@@ -15,6 +15,7 @@ const generateRandomString = (lenght: number = 5): string => {
 };
 
 const convertToDate = (date_string: string): number => {
+    // Convert datetime string to data milliseconds
     const [datePart, millisecondsPart] = date_string.split(".");
     const date = new Date(datePart);
 
@@ -22,7 +23,10 @@ const convertToDate = (date_string: string): number => {
     return date.setMilliseconds(milliseconds);
 };
 
-const isAuthTokenExpired = (authToken: string): boolean => {
+const isAuthTokenExpired = (authToken: string | null): boolean => {
+    if (!authToken) {
+        return true;
+    }
     const decodedJWTToken = jwtDecode<DecodedJWTType>(authToken);
 
     // Convert expired date to milliseconds

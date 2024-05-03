@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../../features/authentication/utils/helpers";
 
 type PropsType = {
     className?: string;
@@ -18,19 +17,17 @@ function TextMenu({ className = "" }: PropsType) {
             <Link className={className} to="#">
                 Advertise
             </Link>
-            <Link
-                className={className}
-                to="#"
-                onClick={() => {
-                    if (authToken) {
-                        logout();
-                    } else {
-                        navigate("/loginPage");
-                    }
-                }}
-            >
-                {!authToken ? "Login" : "Logout"}
-            </Link>
+            {!authToken ? (
+                <Link
+                    className={className}
+                    to="/loginPage"
+                    onClick={() => navigate("/loginPage")}
+                >
+                    Login
+                </Link>
+            ) : (
+                ""
+            )}
         </>
     );
 }

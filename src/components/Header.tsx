@@ -1,6 +1,8 @@
+import { useState } from "react";
 import SearchBar from "./form/SearchBar";
 import ListMenu from "./menu/ListMenu";
 import User from "./users/User";
+import { isAuthTokenExpired } from "../utils/helpers";
 
 type PropsType = {
     setText?: React.Dispatch<React.SetStateAction<string | null>>;
@@ -10,7 +12,8 @@ type PropsType = {
 
 function Header({ setSearchData, setText, text }: PropsType) {
     const authToken = localStorage.getItem("tokenAuth");
-
+    const [isIconClicked, setIsIconClicked] = useState(false);
+        
     return (
         <div className="pb-[80px]">
             <div className="flex fixed w-[100%] bg-white z-50">
@@ -22,15 +25,21 @@ function Header({ setSearchData, setText, text }: PropsType) {
                     />
                 </div>
                 <div className="pt-4">
-                    <ListMenu />
+                    <ListMenu isIconClicked={isIconClicked} setIsIconClicked={setIsIconClicked} />
                 </div>
-                <div className="pt-3 mr-4">
-                    <User authToken={authToken} />
-                </div>
+                {!isAuthTokenExpired(authToken) ? (
+                    <div className="pt-3 mr-4">
+                        <User
+                            setIsIconClicked={() => setIsIconClicked(!isIconClicked)}
+                            authToken={authToken}
+                        />
+                    </div>
+                ) : (
+                    ""
+                )}
             </div>
         </div>
     );
 }
-// mt-4 mr-2
 
 export default Header;

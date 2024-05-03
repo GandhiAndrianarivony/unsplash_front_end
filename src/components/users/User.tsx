@@ -4,9 +4,10 @@ import UserProfile from "./UserProfile";
 
 type PropsType = {
     authToken: string | null;
+    setIsIconClicked?: () => void;
 };
 
-function User({ authToken }: PropsType) {
+function User({ authToken, setIsIconClicked }: PropsType) {
     const { loading, error, data } = useQuery(GET_CURRENT_USER, {
         context: {
             headers: {
@@ -17,10 +18,14 @@ function User({ authToken }: PropsType) {
 
     if (loading) return "Loading ...";
     if (error) return `Error: ${error}`;
-    
 
     return (
         <UserProfile
+            setIsIconClicked={() => {
+                if (setIsIconClicked) {
+                    setIsIconClicked();
+                }
+            }}
             className="w-[36px] h-[36px] rounded-full cursor-pointer"
             profile={data.getCurrentUser.profile.baseUrl}
         />
