@@ -17,9 +17,13 @@ type PropsType = {
 function ListMenu({
     isIconClicked = false,
     setIsIconClicked,
-    username = "deric",
+    username = "deric", // TODO
 }: PropsType) {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [authToken, setAuthToken] = useState<string | null>(
+        localStorage.getItem("tokenAuth")
+    );
+
     const navigate = useNavigate();
 
     // CSS of the menu
@@ -43,7 +47,7 @@ function ListMenu({
                         className={`block md:hidden w-40 bg-gray-100 rounded-md px-1 py-1`}
                     >
                         <TextMenu className={textMenuBlockStyle} />
-                        <ButtonMenu className={buttonMenuBlockStyle} />
+                        <ButtonMenu authToken={authToken} className={buttonMenuBlockStyle} />
                     </div>
                 </div>
             </div>
@@ -65,7 +69,7 @@ function ListMenu({
                     <div className={userIconMenuClassName}>
                         <Link to="#">Account setting</Link>
                     </div>
-                    <hr className="mb-2"/>
+                    <hr className="mb-2" />
                     <div className={userIconMenuClassName}>
                         <Link
                             to="/"
@@ -75,6 +79,7 @@ function ListMenu({
                                 }
                                 logout();
                                 navigate("/");
+                                setAuthToken(null);
                             }}
                         >
                             Logout @{username}
@@ -101,7 +106,7 @@ function ListMenu({
             {/* Menu display in case of md screen */}
             <div className={`hidden md:block ml-[20px] mr-[20px]`}>
                 <TextMenu className={textMenuStyle} />
-                <ButtonMenu className={buttonMenuStyle} />
+                <ButtonMenu authToken={authToken} className={buttonMenuStyle} />
             </div>
             {menuResponsive}
             {userIconMenu}
