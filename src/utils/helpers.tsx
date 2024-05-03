@@ -1,3 +1,9 @@
+import { jwtDecode } from "jwt-decode";
+
+type DecodedJWTType = {
+    payload: string;
+};
+
 const generateRandomString = (lenght: number = 5): string => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     let result: string = "";
@@ -16,4 +22,20 @@ const convertToDate = (date_string: string): number => {
     return date.setMilliseconds(milliseconds);
 };
 
-export { generateRandomString, convertToDate };
+const isAuthTokenExpired = (authToken: string): boolean => {
+    const decodedJWTToken = jwtDecode<DecodedJWTType>(authToken);
+
+    // Convert expired date to milliseconds
+    const expiredAt = convertToDate(JSON.parse(decodedJWTToken.payload).exp);
+
+    // get current date in milliseconds
+    const currentDate = new Date().getTime();
+
+    // Check if Authentication token has expired
+    if (expiredAt - currentDate <= 0) {
+        return true;
+    }
+    return false;
+};
+
+export { generateRandomString, convertToDate, isAuthTokenExpired };
