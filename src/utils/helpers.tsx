@@ -8,11 +8,12 @@ const generateRandomString = (lenght: number = 5): string => {
     return result;
 };
 
-const logout = (): void => {
-    const tokenAuth = localStorage.getItem("tokenAuth");
-    if (tokenAuth) {
-        localStorage.removeItem("tokenAuth");
-    }
+const convertToDate = (date_string: string): number => {
+    const [datePart, millisecondsPart] = date_string.split(".");
+    const date = new Date(datePart);
+
+    const milliseconds = parseInt(millisecondsPart);
+    return date.setMilliseconds(milliseconds);
 };
 
-export { generateRandomString };
+export { generateRandomString, convertToDate };

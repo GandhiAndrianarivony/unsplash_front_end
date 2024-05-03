@@ -13,11 +13,11 @@ function ImageDisplayed({ isImageLoaded, file }: PropsType) {
                     <img
                         src={file ? URL.createObjectURL(file) : ""}
                         alt="Image sélectionnée"
-                        className="max-w-100 max-h-52 p-3"
+                        className="max-w-100 rounded-lg"
                     />
                 </div>
             ) : (
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                <div className="flex flex-col items-center justify-center pt-5 pb-6 p-5">
                     <IoCloudUploadOutline className="size-32" />
                     <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                         <span className="font-semibold">Click to upload</span>{" "}

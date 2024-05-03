@@ -9,7 +9,7 @@ import { logout } from "../../features/authentication/utils/helpers";
 function ListMenu() {
     // Setting up text menu and its styles
     const authToken = localStorage.getItem("tokenAuth");
-
+ 
     const textMenu: [string, string, (() => void)?][] = [
         ["Explore", "#"],
         ["Advertise", "#"],
