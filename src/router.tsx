@@ -3,13 +3,14 @@ import ErrorPage from "./pages/PageNotFound.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import HomePage from "./pages/HomePage.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
-import ModalComponent from "./features/fileUpload/components/ModalComponent.tsx";
+import ViewProfilePage from "./pages/ViewProfilePage.tsx";
 
 const router = createBrowserRouter([
     { path: "/", element: <HomePage />, errorElement: <ErrorPage /> },
     { path: "/signupPage", element: <RegisterPage /> },
     { path: "/loginPage", element: <LoginPage /> },
-    { path: "/modalComponent", element: <ModalComponent /> },
+    { path: "/profile", element: <ViewProfilePage /> },
+    // { path: "*", element: <ErrorPage /> },
 ]);
 
 export default router;

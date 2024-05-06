@@ -24,7 +24,7 @@ function UserIconMenu({
         >
             <div className="px-2 py-2">
                 <div className={userIconMenuClassName}>
-                    <Link to="#">View Profile</Link>
+                    <Link to="/profile">View Profile</Link>
                 </div>
                 <div className={userIconMenuClassName}>
                     <Link to="#">Stats</Link>
