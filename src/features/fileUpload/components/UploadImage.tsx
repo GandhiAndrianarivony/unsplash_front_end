@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
-import UPLOAD_IMAGE from "../../../graphql/mutations/uploadImage";
+import UPLOAD_IMAGE from "../../../lib/graphql/mutations/uploadImage";
 import Button from "../../../components/ui/Button";
 import InputImage from "./InputImage";
 import ImageDisplayed from "./ImageDisplayed";
@@ -24,7 +24,7 @@ export default function UploadImage({ open, onClose, authToken }: PropsType) {
             },
         },
     });
-    
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 

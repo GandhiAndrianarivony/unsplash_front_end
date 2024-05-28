@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "../../../components/ui/Button";
 import Input from "../../../components/ui/Input";
 import { useMutation } from "@apollo/client";
-import AUTHENTICATE_USER from "../../../graphql/mutations/authenticateUser";
+import AUTHENTICATE_USER from "../../../lib/graphql/mutations/authenticateUser";
 import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
@@ -70,8 +70,14 @@ function Login() {
                     />
                     <p className="text-red-600 mt-3">{errorrMesssage}</p>
                     <div>
-                        You are not a member ?  
-                        <Link to="/signupPage" className="text-blue-600 hover:text-blue-600/50"> Register now</Link>
+                        You are not a member ?
+                        <Link
+                            to="/signupPage"
+                            className="text-blue-600 hover:text-blue-600/50"
+                        >
+                            {" "}
+                            Register now
+                        </Link>
                     </div>
                 </form>
             </div>

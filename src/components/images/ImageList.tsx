@@ -4,7 +4,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { IoMdArrowDown } from "react-icons/io";
 
-import GET_IMAGES from "../../graphql/queries/getImageList";
+import GET_IMAGES from "../../lib/graphql/queries/getImageList";
 import ImageItem from "./ImageItem";
 import Button from "../ui/Button";
 import UserProfile from "../users/UserProfile";
