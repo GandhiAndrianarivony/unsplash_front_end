@@ -7,7 +7,8 @@ import createUploadLink from "apollo-upload-client/createUploadLink.mjs";
 
 import router from "./router";
 import "./index.css";
-import { isAuthTokenExpired } from "./utils/helpers";
+// import { isAuthTokenExpired } from "./utils/helpers";
+import AuthContextProvider from "./context/AuthContext";
 
 const env = import.meta.env;
 
@@ -21,16 +22,18 @@ const client = new ApolloClient({
     link: link,
 });
 
-// Check authentication token expiration
-const tokenAuth = localStorage.getItem("tokenAuth");
-if (isAuthTokenExpired(tokenAuth)) {
-    localStorage.removeItem("tokenAuth");
-}
+// // Check authentication token expiration
+// const tokenAuth = localStorage.getItem("tokenAuth");
+// if (isAuthTokenExpired(tokenAuth)) {
+//     localStorage.removeItem("tokenAuth");
+// }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <ApolloProvider client={client}>
-            <RouterProvider router={router} />
+            <AuthContextProvider>
+                <RouterProvider router={router} />
+            </AuthContextProvider>
         </ApolloProvider>
     </React.StrictMode>
 );
