@@ -6,6 +6,7 @@ import RegisterPage from "./pages/RegisterPage.tsx";
 import ViewProfilePage from "./pages/ViewProfilePage.tsx";
 import { Like } from "./components/profiles/Like.tsx";
 import { Statistics } from "./components/profiles/Statistics.tsx";
+import Collection from "./components/profiles/Collection.tsx";
 
 const router = createBrowserRouter([
     { path: "/", element: <HomePage />, errorElement: <ErrorPage /> },
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
             {
                 path: "stats/",
                 element: <Statistics />,
+            },
+            {
+                path: "collections/",
+                element: <Collection />,
             },
         ],
     },

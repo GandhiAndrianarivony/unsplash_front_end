@@ -8,12 +8,21 @@ import GET_IMAGES from "../../lib/graphql/queries/getImageList";
 import ImageItem from "./ImageItem";
 import Button from "../ui/Button";
 import UserProfile from "../users/UserProfile";
+import { useState } from "react";
+import ImageCollection from "./ImageCollection";
 
 type PropsType = {
     searchedData?: any;
 };
 
 function ImageList({ searchedData }: PropsType): string | JSX.Element {
+    const [isHovered, setIsHovered] = useState(false);
+    const [isCollectionOpen, setIsCollectionOpen] = useState(false);
+    const [clickedItem, setClickedItem] = useState<any>();
+
+    const env = import.meta.env;
+    const imageURI = env.VITE_BACKEND_IP_ADDRESS;
+
     const { loading, error, data } = useQuery(GET_IMAGES, {
         pollInterval: 5000,
     });
@@ -23,13 +32,17 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
 
     const buttonIconSize = "20px";
     const buttonCommonClass =
-        "absolute rounded-md bg-gray-200 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white p1 cursor-pointer";
+        "absolute rounded-md bg-gray-200 opacity-0 group-hover:opacity-100 hover:bg-white p1 cursor-pointer";
 
     const images = searchedData ?? data.getImages;
 
     return (
-        <div className="container w-2/3 mx-auto">
-            <div className="w-full gap-4 columns-1 md:columns-3 space-y-4">
+        <div className="container w-2/3 mx-auto ">
+            <div
+                className={`w-full gap-4 columns-1 md:columns-3 space-y-4 ${
+                    isCollectionOpen ? "opacity-30" : ""
+                }`}
+            >
                 {images.edges.map((item: any) => (
                     <div
                         key={item.node.id}
@@ -50,8 +63,20 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
                         <Button
                             type="button"
                             className={`top-0 right-[20px] mt-5 p-1 ${buttonCommonClass}`}
+                            setIsHovered={setIsHovered}
+                            onClick={() => {
+                                setIsCollectionOpen(true);
+                                setClickedItem(item);
+                            }}
                         >
                             <IoMdAdd size={buttonIconSize} />
+                            {isHovered ? (
+                                <div className="absolute border-2 whitespace-nowrap top-0 right-[-230px] z-10 bg-white mt-7 p-1">
+                                    Add this image to a collection
+                                </div>
+                            ) : (
+                                <p></p>
+                            )}
                         </Button>
 
                         <Button
@@ -78,6 +103,18 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
                     </div>
                 ))}
             </div>
+            <ImageCollection
+                isCollectionOpen={isCollectionOpen}
+                setIsCollectionOpen={setIsCollectionOpen}
+            >
+                {clickedItem && (
+                    <img
+                        src={`http://${imageURI}:${env.VITE_BACKEND_PORT}${clickedItem.node.baseUrl}`}
+                        alt=""
+                        className="hidden xl:block w-1/2 object-cover bg-no-repeat rounded-r-lg"
+                    />
+                )}
+            </ImageCollection>
         </div>
     );
 }

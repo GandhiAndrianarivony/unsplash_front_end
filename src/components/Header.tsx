@@ -29,7 +29,7 @@ function Header({
 
     return (
         <div className="pb-[80px]">
-            <div className="flex fixed w-[100%] bg-white z-50">
+            <div className="flex fixed w-[100%] bg-white z-10">
                 <div className="flex-1">
                     <SearchBar
                         text={text}
