@@ -30,6 +30,8 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
     if (loading) return "Loading ...";
     if (error) return `Error: ${error}`;
 
+    console.log(data)
+
     const buttonIconSize = "20px";
     const buttonCommonClass =
         "absolute rounded-md bg-gray-200 opacity-0 group-hover:opacity-100 hover:bg-white p1 cursor-pointer";
