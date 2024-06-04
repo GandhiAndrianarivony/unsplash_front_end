@@ -27,6 +27,7 @@ const ImageCollection = ({
             }`}
             onClick={() => {
                 setIsCollectionOpen(false);
+                setIsClickedCB(false)
             }}
         >
             <div
