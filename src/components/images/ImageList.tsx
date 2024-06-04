@@ -111,7 +111,7 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
                     <img
                         src={`http://${imageURI}:${env.VITE_BACKEND_PORT}${clickedItem.node.baseUrl}`}
                         alt=""
-                        className="hidden xl:block w-1/2 object-cover bg-no-repeat rounded-r-lg"
+                        className="hidden xl:block w-80 object-cover bg-no-repeat rounded-r-lg"
                     />
                 )}
             </ImageCollection>

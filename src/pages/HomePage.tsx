@@ -8,7 +8,7 @@ function HomePage() {
     const [isIconClicked, setIsIconClicked] = useState(false);
 
     return (
-        <div className="pb-10" onClick={() => setIsIconClicked(false)}>
+        <div className="pb-10 !scroll-smooth" onClick={() => setIsIconClicked(false)}>
             <Header
                 isIconClicked={isIconClicked}
                 setIsIconClicked={setIsIconClicked}
