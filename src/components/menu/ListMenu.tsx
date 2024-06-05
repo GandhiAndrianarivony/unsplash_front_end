@@ -5,24 +5,25 @@ import Button from "../ui/Button";
 import { useState } from "react";
 import TextMenu from "./TextMenu";
 import ButtonMenu from "./ButtonMenu";
-import { useNavigate } from "react-router-dom";
 import { logout } from "../../features/authentication/utils/helpers";
-// import { useQuery } from "@apollo/client";
-// import GET_CURRENT_USER from "../../graphql/queries/getCurrentUser";
+
 import UserIconMenu from "./UserIconMenu";
+import { useAuth } from "../../hooks/useAuth";
 
 type PropsType = {
     isIconClicked?: boolean | null | undefined;
     setIsIconClicked?: () => void;
-    username?: string
+    username?: string;
 };
 
-function ListMenu({ isIconClicked = false, setIsIconClicked, username }: PropsType) {
+function ListMenu({
+    isIconClicked = false,
+    setIsIconClicked,
+    username,
+}: PropsType) {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [authToken, setAuthToken] = useState<string | null>(
-        localStorage.getItem("tokenAuth")
-    );
-    const navigate = useNavigate();
+
+    const { token, setIsAuthenticated } = useAuth();
 
     // CSS of the menu
     const textMenuStyle =
@@ -46,7 +47,7 @@ function ListMenu({ isIconClicked = false, setIsIconClicked, username }: PropsTy
                     >
                         <TextMenu className={textMenuBlockStyle} />
                         <ButtonMenu
-                            authToken={authToken}
+                            authToken={token}
                             className={buttonMenuBlockStyle}
                         />
                     </div>
@@ -66,8 +67,7 @@ function ListMenu({ isIconClicked = false, setIsIconClicked, username }: PropsTy
                         setIsIconClicked();
                     }
                     logout();
-                    navigate("/");
-                    setAuthToken(null);
+                    setIsAuthenticated(false);
                 }}
                 onClick={(e) => e.stopPropagation()}
             />
@@ -89,7 +89,7 @@ function ListMenu({ isIconClicked = false, setIsIconClicked, username }: PropsTy
             {/* Menu display in case of md screen */}
             <div className={`hidden md:block ml-[20px] mr-[20px]`}>
                 <TextMenu className={textMenuStyle} />
-                <ButtonMenu authToken={authToken} className={buttonMenuStyle} />
+                <ButtonMenu authToken={token} className={buttonMenuStyle} />
             </div>
             {menuResponsive}
             {userIconMenu}

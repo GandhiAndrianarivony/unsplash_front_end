@@ -25,7 +25,7 @@ function Header({
 
     useEffect(() => {
         checkAuthUser();
-    }, []);
+    }, [token, isAuthenticated]);
 
     return (
         <div className="pb-[80px]">

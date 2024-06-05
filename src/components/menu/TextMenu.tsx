@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 type PropsType = {
     className?: string;
@@ -7,7 +8,7 @@ type PropsType = {
 function TextMenu({ className = "" }: PropsType) {
     const navigate = useNavigate();
 
-    const authToken = localStorage.getItem("tokenAuth");
+    const { token } = useAuth();
 
     return (
         <>
@@ -17,7 +18,7 @@ function TextMenu({ className = "" }: PropsType) {
             <Link className={className} to="#">
                 Advertise
             </Link>
-            {!authToken ? (
+            {!token ? (
                 <Link
                     className={className}
                     to="/loginPage"

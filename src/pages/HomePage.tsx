@@ -7,6 +7,7 @@ function HomePage() {
     const [searchedData, setSearchData] = useState<any>(null);
     const [isIconClicked, setIsIconClicked] = useState(false);
 
+    console.log(isIconClicked)
     return (
         <div className="pb-10" onClick={() => setIsIconClicked(false)}>
             <Header

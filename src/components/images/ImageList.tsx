@@ -30,8 +30,6 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
     if (loading) return "Loading ...";
     if (error) return `Error: ${error}`;
 
-    console.log(data)
-
     const buttonIconSize = "20px";
     const buttonCommonClass =
         "absolute rounded-md bg-gray-200 opacity-0 group-hover:opacity-100 hover:bg-white p1 cursor-pointer";
@@ -118,7 +116,7 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
                 </ImageCollection>
             </div>
             {isCollectionOpen && (
-                <div className="fixed w-full z-[15] opacity-50 top-0 bg-black h-full text-white">
+                <div className="fixed w-full z-[15] opacity-55 top-0 bg-black h-full text-white">
                 </div>
             )}
         </div>

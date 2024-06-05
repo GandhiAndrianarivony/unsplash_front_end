@@ -9,6 +9,9 @@ const CollectionForm = ({ setIsClickedCB }: PropsType) => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
     };
+
+    const hoverClasses = "opacity-80 hover:opacity-100 transition-opacity duration-200 text-white font-bold "
+
     return (
         <div className="w-full">
             <div className="text-center mb-10">
@@ -22,13 +25,13 @@ const CollectionForm = ({ setIsClickedCB }: PropsType) => {
                 />
                 <div className="flex justify-between items-center mt-4">
                     <Button
-                        className="bg-red-600 rounded-lg p-2 text-white font-bold"
+                        className={`bg-red-600 ${hoverClasses} rounded-lg p-2`}
                         label="Cancel"
                         type="button"
                         onClick={() => setIsClickedCB(false)}
                     />
                     <Button
-                        className="bg-black rounded-lg p-2 text-white font-bold"
+                        className={`bg-black rounded-lg p-2 ${hoverClasses}`}
                         label="Create Collection"
                         type="submit"
                     />
