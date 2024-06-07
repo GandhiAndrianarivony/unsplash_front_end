@@ -24,7 +24,7 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
     const imageURI = env.VITE_BACKEND_IP_ADDRESS;
 
     const { loading, error, data } = useQuery(GET_IMAGES, {
-        pollInterval: 5000,
+        // pollInterval: 5000,
     });
 
     if (loading) return "Loading ...";
@@ -116,8 +116,7 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
                 </ImageCollection>
             </div>
             {isCollectionOpen && (
-                <div className="fixed w-full z-[15] opacity-55 top-0 bg-black h-full text-white">
-                </div>
+                <div className="fixed w-full z-[15] opacity-55 top-0 bg-black h-full text-white"></div>
             )}
         </div>
     );

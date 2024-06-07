@@ -14,6 +14,10 @@ const generateRandomString = (lenght: number = 5): string => {
     return result;
 };
 
+const capitalizeFirstLetter = (letter: string): string => {
+    return letter.charAt(0).toUpperCase() + letter.slice(1).toLowerCase();
+};
+
 const convertToDate = (date_string: string): number => {
     // Convert datetime string to data milliseconds
     const [datePart, millisecondsPart] = date_string.split(".");
@@ -42,4 +46,9 @@ const isAuthTokenExpired = (authToken: string | null): boolean => {
     return false;
 };
 
-export { generateRandomString, convertToDate, isAuthTokenExpired };
+export {
+    generateRandomString,
+    convertToDate,
+    isAuthTokenExpired,
+    capitalizeFirstLetter,
+};

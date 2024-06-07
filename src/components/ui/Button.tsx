@@ -5,6 +5,7 @@ type ProsType = {
     children?: React.ReactElement | React.ReactElement[];
     onClick?: () => void;
     setIsHovered?: React.Dispatch<React.SetStateAction<boolean>>;
+    isDisable?: boolean;
 };
 
 function Button({
@@ -14,6 +15,7 @@ function Button({
     children,
     onClick,
     setIsHovered,
+    isDisable = false,
 }: ProsType) {
     const handleClick = () => {
         if (onClick) {
@@ -39,6 +41,7 @@ function Button({
                 className={className}
                 type={type}
                 onClick={handleClick}
+                disabled={isDisable}
             >
                 {label}
                 {children}

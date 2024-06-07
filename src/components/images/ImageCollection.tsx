@@ -1,6 +1,9 @@
-import { MdOutlineCreateNewFolder } from "react-icons/md";
-import Button from "../ui/Button";
 import { useState } from "react";
+
+import { FaFolderPlus } from "react-icons/fa";
+import { FaCircleArrowLeft } from "react-icons/fa6";
+
+import Button from "../ui/Button";
 import CollectionForm from "../form/CollectionForm";
 
 type PropsType = {
@@ -16,6 +19,11 @@ const ImageCollection = ({
     const [isHovered, setIsHovered] = useState(false);
     const [isClickedCB, setIsClickedCB] = useState(false);
 
+    const iconButtonClass =
+        "absolute left-0 top-0 p-1 my-3 mx-3 opacity-70 hover:opacity-100 transition-opacity duration-200";
+    const hoveringTextClass =
+        "absolute whitespace-nowrap bg-white p-1 border-2 m-8 top-0";
+
     const handleClick = () => {
         setIsClickedCB(true);
     };
@@ -27,26 +35,32 @@ const ImageCollection = ({
             }`}
             onClick={() => {
                 setIsCollectionOpen(false);
-                setIsClickedCB(false)
+                setIsClickedCB(false);
+                setIsHovered(false);
             }}
         >
             <div
                 className="relative bg-white flex rounded-lg w-1/2 h-1/2"
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="flex-1 flex justify-center items-center">
+                <div className="flex-1 flex flex-col justify-center items-center ">
                     {isClickedCB ? (
-                        <CollectionForm setIsClickedCB={setIsClickedCB} />
+                        <CollectionForm />
                     ) : (
-                        <div className="max-w-lg flex gap-4 flex-wrap justify-center items-center">
-                            <div className=" bg-black text-white text-center p-2">
-                                Collection 1
-                            </div>{" "}
-                            <div className=" bg-black text-white text-center p-2">
-                                Collection 1
-                            </div>{" "}
-                            <div className=" bg-black text-white text-center p-2">
-                                Collection 1
+                        <div className="h-screen mt-3">
+                            <div className=" text-center font-bold text-3xl pb-10">
+                                Select a collection
+                            </div>
+                            <div className="max-w-lg flex gap-4 flex-wrap justify-center items-center">
+                                <div className=" bg-black text-white text-center p-2">
+                                    Collection 1
+                                </div>
+                                <div className=" bg-black text-white text-center p-2">
+                                    Collection 1
+                                </div>
+                                <div className=" bg-black text-white text-center p-2">
+                                    Collection 1
+                                </div>
                             </div>
                         </div>
                     )}
@@ -55,18 +69,27 @@ const ImageCollection = ({
                 {!isClickedCB && (
                     <Button
                         type="button"
-                        className="absolute left-0 top-0 p-1 my-3 mx-3 opacity-70 hover:opacity-100 transition-opacity duration-200"
+                        className={iconButtonClass}
                         setIsHovered={setIsHovered}
                         onClick={handleClick}
                     >
-                        <MdOutlineCreateNewFolder size={"30px"} />
+                        <FaFolderPlus size={"30px"} />
                         {isHovered ? (
-                            <div className="absolute whitespace-nowrap bg-white p-1 border-2 m-8 top-0">
+                            <div className={hoveringTextClass}>
                                 Create new collection
                             </div>
                         ) : (
                             <p></p>
                         )}
+                    </Button>
+                )}
+                {isClickedCB && (
+                    <Button
+                        type="button"
+                        className={iconButtonClass}
+                        onClick={() => setIsClickedCB(false)}
+                    >
+                        <FaCircleArrowLeft size={"30px"} />
                     </Button>
                 )}
             </div>
