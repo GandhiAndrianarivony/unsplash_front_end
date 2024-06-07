@@ -24,10 +24,6 @@ const ImageCollection = ({
     const hoveringTextClass =
         "absolute whitespace-nowrap bg-white p-1 border-2 m-8 top-0";
 
-    const handleClick = () => {
-        setIsClickedCB(true);
-    };
-
     return (
         <div
             className={`fixed inset-0 z-20 flex justify-center items-center ${
@@ -71,7 +67,7 @@ const ImageCollection = ({
                         type="button"
                         className={iconButtonClass}
                         setIsHovered={setIsHovered}
-                        onClick={handleClick}
+                        onClick={() => setIsClickedCB(true)}
                     >
                         <FaFolderPlus size={"30px"} />
                         {isHovered ? (
