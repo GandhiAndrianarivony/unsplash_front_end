@@ -10,6 +10,7 @@ import { GET_USER_IMAGE_COLLECTION } from "../../lib/graphql/queries/getUserImag
 import { useAuth } from "../../hooks/useAuth";
 import { ImageNodeType } from "../../types/image";
 import { ADD_IMAGE_TO_COLLECTION } from "../../lib/graphql/mutations/addImageToCollection";
+import Card from "../Card";
 
 type CollectionType = {
     name: string;
@@ -66,7 +67,6 @@ const ImageCollection = ({
     if (error) return `Error: ${error}`;
 
     const uCollections = data.getCollections.edges;
-    console.log(uCollections[10]);
 
     const onClick = async (imageId: string, collectionId: string) => {
         await addToCollection({
@@ -102,29 +102,34 @@ const ImageCollection = ({
                             </div>
                             <div className="max-w-lg flex gap-4 flex-wrap justify-center items-center">
                                 {uCollections.map(
-                                    (item: ImageCollectionType) => (
-                                        <div key={item.node.id}>
-                                            {item.node.images.length > 0 ? (
-                                                <p>GT {item.node.images.length}</p>
-                                            ) : (
-                                                <p>LT {item.node.images.length}</p>
-                                            )}
-                                            <button
-                                                className="bg-black opacity-70 hover:opacity-100 text-white text-center p-2"
-                                                onClick={
-                                                    () =>
-                                                        onClick(
-                                                            clickedItem?.node
-                                                                .id!,
-                                                            item.node.id
-                                                        )
-                                                    // TODO: Add and Remove image to a collection
-                                                }
-                                            >
-                                                {item.node.name}
-                                            </button>
-                                        </div>
-                                    )
+                                    (item: ImageCollectionType) => {
+                                        const imageCollections = item.node.images;
+
+                                        return (
+                                            <div key={item.node.id}>
+                                                {imageCollections.length > 0 ? (
+                                                    // <p>{imageCollections[imageCollections.length-1].image.baseUrl}</p>
+                                                    <Card cardTitle={item.node.name}/>
+                                                ) : (
+                                                    <p> </p>
+                                                )}
+                                                <button
+                                                    className="bg-black opacity-70 hover:opacity-100 text-white text-center p-2"
+                                                    onClick={
+                                                        () =>
+                                                            onClick(
+                                                                clickedItem
+                                                                    ?.node.id!,
+                                                                item.node.id
+                                                            )
+                                                        // TODO: Add and Remove image to a collection
+                                                    }
+                                                >
+                                                    {item.node.name}
+                                                </button>
+                                            </div>
+                                        );
+                                    }
                                 )}
                             </div>
                         </div>

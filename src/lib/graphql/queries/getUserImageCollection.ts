@@ -4,24 +4,35 @@ export const GET_USER_IMAGE_COLLECTION = gql`
     query MyQuery {
         getCollections {
             edges {
-              node {
-                name
-                id
-                images {
-                  id
-                  image {
-                    pk
-                  }
-                  collection {
-                    pk
-                  }
+                node {
+                    name
+                    id
+                    images {
+                        id
+                        image {
+                            aiDescription
+                            baseUrl
+                            blurhashCode
+                            category
+                            createdAt
+                            description
+                            fileName
+                            id
+                            imageUrl {
+                                height
+                                width
+                            }
+                        }
+                        collection {
+                            pk
+                        }
+                    }
                 }
-              }
             }
             pageInfo {
-              endCursor
-              hasNextPage
+                endCursor
+                hasNextPage
             }
-          }
+        }
     }
 `;
