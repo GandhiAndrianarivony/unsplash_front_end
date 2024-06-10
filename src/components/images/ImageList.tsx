@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 
 import { FaRegHeart } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";

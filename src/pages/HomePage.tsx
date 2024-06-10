@@ -16,7 +16,7 @@ function HomePage() {
                 setText={setText}
                 text={text}
             />
-            <ImageList searchedData={searchedData} />
+            <ImageList  searchedData={searchedData} />
         </div>
     );
 }

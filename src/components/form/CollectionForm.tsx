@@ -1,4 +1,8 @@
-import { useMutation } from "@apollo/client";
+import {
+    ApolloQueryResult,
+    OperationVariables,
+    useMutation,
+} from "@apollo/client";
 import Button from "../ui/Button";
 import { CREATE_NEW_COLLECTION } from "../../lib/graphql/mutations/createNewCollection";
 import { useAuth } from "../../hooks/useAuth";
@@ -9,7 +13,13 @@ import { CollectionInputSchema } from "../../lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 
-const CollectionForm = () => {
+type PropsType = {
+    refetch: (
+        variables?: Partial<OperationVariables> | undefined
+    ) => Promise<ApolloQueryResult<any>>;
+};
+
+const CollectionForm = ({ refetch }: PropsType) => {
     const [creationMessage, setCreationMessage] = useState("");
     const { token } = useAuth();
     const {
@@ -44,6 +54,7 @@ const CollectionForm = () => {
                 setCreationMessage(res.data.createCollection.errorMessage);
             } else {
                 setCreationMessage("Successfully created!!");
+                refetch();
                 reset();
             }
         } catch (error) {
