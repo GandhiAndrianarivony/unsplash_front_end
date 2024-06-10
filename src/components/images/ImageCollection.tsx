@@ -2,10 +2,17 @@ import { useState } from "react";
 
 import { FaFolderPlus } from "react-icons/fa";
 import { FaCircleArrowLeft } from "react-icons/fa6";
+import { useMutation, useQuery } from "@apollo/client";
+
+// =================================================================
+import React from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+// =================================================================
 
 import Button from "../ui/Button";
 import CollectionForm from "../form/CollectionForm";
-import { useMutation, useQuery } from "@apollo/client";
 import { GET_USER_IMAGE_COLLECTION } from "../../lib/graphql/queries/getUserImageCollection";
 import { useAuth } from "../../hooks/useAuth";
 import { ImageNodeType } from "../../types/image";
@@ -37,9 +44,21 @@ const ImageCollection = ({
 }: PropsType) => {
     const [isHovered, setIsHovered] = useState(false);
     const [isClickedCB, setIsClickedCB] = useState(false);
-    // const [collectionData, setCollectionData] = useState<any | null>(null);
-
     const { token } = useAuth();
+
+    var settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        rows: 3,
+        swipe: true,
+    };
+
+    // =================================================================
+    const imgSrc = `/media/a1922f08-b564-4b52-a34f-e575e9d48c98.JPEG`;
+    // =================================================================
 
     const iconButtonClass =
         "absolute left-0 top-0 p-1 my-3 mx-3 opacity-70 hover:opacity-100 transition-opacity duration-200";
@@ -89,48 +108,73 @@ const ImageCollection = ({
             }}
         >
             <div
-                className="relative bg-white flex rounded-lg w-1/2 h-1/2"
+                className="relative bg-white flex rounded-lg m-5 md:m-0 w-[600px] md:w-[800px] h-[300px] md:h-[600px]"
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="flex-1 flex flex-col justify-center items-center ">
+                <div className="flex-1 flex flex-col justify-center items-center">
                     {isClickedCB ? (
                         <CollectionForm refetch={refetch} />
                     ) : (
-                        <div className="h-screen mt-3">
-                            <div className=" text-center font-bold text-3xl pb-10">
+                        <div className="mt-3 flex flex-col flex-wrap justify-center items-center">
+                            <div className="text-center font-bold text-lg md:text-3xl mb-10">
                                 Select a collection
                             </div>
-                            <div className="max-w-lg flex gap-4 flex-wrap justify-center items-center">
-                                {uCollections.map(
-                                    (item: ImageCollectionType) => {
-                                        const imageCollections = item.node.images;
+                            <div className="slider-container w-[200px] md:w-[400px]">
+                                <Slider {...settings}>
+                                    {uCollections.map(
+                                        (item: ImageCollectionType) => {
+                                            const imageCollections =
+                                                item.node.images;
 
-                                        return (
-                                            <div key={item.node.id}>
-                                                {imageCollections.length > 0 ? (
-                                                    // <p>{imageCollections[imageCollections.length-1].image.baseUrl}</p>
-                                                    <Card cardTitle={item.node.name}/>
-                                                ) : (
-                                                    <p> </p>
-                                                )}
-                                                <button
-                                                    className="bg-black opacity-70 hover:opacity-100 text-white text-center p-2"
-                                                    onClick={
-                                                        () =>
-                                                            onClick(
-                                                                clickedItem
-                                                                    ?.node.id!,
-                                                                item.node.id
-                                                            )
-                                                        // TODO: Add and Remove image to a collection
-                                                    }
-                                                >
-                                                    {item.node.name}
-                                                </button>
-                                            </div>
-                                        );
-                                    }
-                                )}
+                                            return (
+                                                <div key={item.node.id}>
+                                                    {imageCollections.length >
+                                                    0 ? (
+                                                        <Card
+                                                            cardTitle={
+                                                                item.node.name
+                                                            }
+                                                            imageSource={
+                                                                imageCollections[
+                                                                    imageCollections.length -
+                                                                        1
+                                                                ].image.baseUrl
+                                                            }
+                                                            onClick={() =>
+                                                                onClick(
+                                                                    clickedItem
+                                                                        ?.node
+                                                                        .id!,
+                                                                    item.node.id
+                                                                )
+                                                            }
+                                                        />
+                                                    ) : (
+                                                        <>
+                                                            <Card
+                                                                cardTitle={
+                                                                    item.node
+                                                                        .name
+                                                                }
+                                                                imageSource={
+                                                                    imgSrc
+                                                                }
+                                                                onClick={() =>
+                                                                    onClick(
+                                                                        clickedItem
+                                                                            ?.node
+                                                                            .id!,
+                                                                        item.node.id
+                                                                    )
+                                                                }
+                                                            />
+                                                        </>
+                                                    )}
+                                                </div>
+                                            );
+                                        }
+                                    )}
+                                </Slider>
                             </div>
                         </div>
                     )}
