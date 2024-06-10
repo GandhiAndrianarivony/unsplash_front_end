@@ -5,12 +5,15 @@ import { FaCircleArrowLeft } from "react-icons/fa6";
 
 import Button from "../ui/Button";
 import CollectionForm from "../form/CollectionForm";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { GET_USER_IMAGE_COLLECTION } from "../../lib/graphql/queries/getUserImageCollection";
 import { useAuth } from "../../hooks/useAuth";
+import { ImageNodeType } from "../../types/image";
+import { ADD_IMAGE_TO_COLLECTION } from "../../lib/graphql/mutations/addImageToCollection";
 
 type CollectionType = {
     name: string;
+    images: any;
     id: string;
 };
 
@@ -22,11 +25,13 @@ type PropsType = {
     isCollectionOpen: boolean;
     setIsCollectionOpen: React.Dispatch<React.SetStateAction<boolean>>;
     children?: React.ReactElement;
+    clickedItem: ImageNodeType | undefined;
 };
 // Create Component
 const ImageCollection = ({
     isCollectionOpen,
     setIsCollectionOpen,
+    clickedItem,
     children,
 }: PropsType) => {
     const [isHovered, setIsHovered] = useState(false);
@@ -39,6 +44,14 @@ const ImageCollection = ({
         "absolute left-0 top-0 p-1 my-3 mx-3 opacity-70 hover:opacity-100 transition-opacity duration-200";
     const hoveringTextClass =
         "absolute whitespace-nowrap bg-white p-1 border-2 m-8 top-0";
+
+    const [addToCollection, {}] = useMutation(ADD_IMAGE_TO_COLLECTION, {
+        context: {
+            headers: {
+                authorization: `JWT ${token}`,
+            },
+        },
+    });
 
     const { loading, error, data, refetch } = useQuery(
         GET_USER_IMAGE_COLLECTION,
@@ -53,6 +66,16 @@ const ImageCollection = ({
     if (error) return `Error: ${error}`;
 
     const uCollections = data.getCollections.edges;
+    console.log(uCollections[10]);
+
+    const onClick = async (imageId: string, collectionId: string) => {
+        await addToCollection({
+            variables: {
+                imageId: imageId,
+                collectionId: collectionId,
+            },
+        });
+    };
 
     return (
         <div
@@ -71,7 +94,7 @@ const ImageCollection = ({
             >
                 <div className="flex-1 flex flex-col justify-center items-center ">
                     {isClickedCB ? (
-                        <CollectionForm refetch={refetch}/>
+                        <CollectionForm refetch={refetch} />
                     ) : (
                         <div className="h-screen mt-3">
                             <div className=" text-center font-bold text-3xl pb-10">
@@ -80,12 +103,27 @@ const ImageCollection = ({
                             <div className="max-w-lg flex gap-4 flex-wrap justify-center items-center">
                                 {uCollections.map(
                                     (item: ImageCollectionType) => (
-                                        <button
-                                            key={item.node.id}
-                                            className="bg-black opacity-70 hover:opacity-100 text-white text-center p-2"
-                                        >
-                                            {item.node.name}
-                                        </button>
+                                        <div key={item.node.id}>
+                                            {item.node.images.length > 0 ? (
+                                                <p>GT {item.node.images.length}</p>
+                                            ) : (
+                                                <p>LT {item.node.images.length}</p>
+                                            )}
+                                            <button
+                                                className="bg-black opacity-70 hover:opacity-100 text-white text-center p-2"
+                                                onClick={
+                                                    () =>
+                                                        onClick(
+                                                            clickedItem?.node
+                                                                .id!,
+                                                            item.node.id
+                                                        )
+                                                    // TODO: Add and Remove image to a collection
+                                                }
+                                            >
+                                                {item.node.name}
+                                            </button>
+                                        </div>
                                     )
                                 )}
                             </div>

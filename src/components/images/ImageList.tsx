@@ -10,6 +10,7 @@ import Button from "../ui/Button";
 import UserProfile from "../users/UserProfile";
 import { useState } from "react";
 import ImageCollection from "./ImageCollection";
+import { ImageNodeType } from "../../types/image";
 
 type PropsType = {
     searchedData?: any;
@@ -18,7 +19,7 @@ type PropsType = {
 function ImageList({ searchedData }: PropsType): string | JSX.Element {
     const [isHovered, setIsHovered] = useState(false);
     const [isCollectionOpen, setIsCollectionOpen] = useState(false);
-    const [clickedItem, setClickedItem] = useState<any>();
+    const [clickedItem, setClickedItem] = useState<ImageNodeType>();
 
     const env = import.meta.env;
     const imageURI = env.VITE_BACKEND_IP_ADDRESS;
@@ -105,6 +106,7 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
                 <ImageCollection
                     isCollectionOpen={isCollectionOpen}
                     setIsCollectionOpen={setIsCollectionOpen}
+                    clickedItem={clickedItem}
                 >
                     {clickedItem && (
                         <img
