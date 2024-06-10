@@ -67,6 +67,7 @@ const ImageCollection = ({
     if (error) return `Error: ${error}`;
 
     const uCollections = data.getCollections.edges;
+    console.log(uCollections);
 
     const onClick = async (imageId: string, collectionId: string) => {
         await addToCollection({
@@ -111,7 +112,7 @@ const ImageCollection = ({
                                                     // <p>{imageCollections[imageCollections.length-1].image.baseUrl}</p>
                                                     <Card cardTitle={item.node.name}/>
                                                 ) : (
-                                                    <p> </p>
+                                                    <p> Test</p>
                                                 )}
                                                 <button
                                                     className="bg-black opacity-70 hover:opacity-100 text-white text-center p-2"
