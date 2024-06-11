@@ -3,6 +3,10 @@ import { jwtDecode } from "jwt-decode";
 type DecodedJWTType = {
     payload: string;
 };
+const getRandomChoice = (data: any[]): any => {
+    const randomIndex = Math.floor(Math.random() * data.length);
+    return data[randomIndex];
+};
 
 const generateRandomString = (lenght: number = 5): string => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -51,4 +55,5 @@ export {
     convertToDate,
     isAuthTokenExpired,
     capitalizeFirstLetter,
+    getRandomChoice,
 };

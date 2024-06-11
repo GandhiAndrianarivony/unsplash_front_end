@@ -1,4 +1,4 @@
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 
 import { FaRegHeart } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
@@ -8,9 +8,11 @@ import GET_IMAGES from "../../lib/graphql/queries/getImageList";
 import ImageItem from "./ImageItem";
 import Button from "../ui/Button";
 import UserProfile from "../users/UserProfile";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ImageCollection from "./ImageCollection";
 import { ImageNodeType } from "../../types/image";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 type PropsType = {
     searchedData?: any;
@@ -21,9 +23,20 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
     const [isCollectionOpen, setIsCollectionOpen] = useState(false);
     const [clickedItem, setClickedItem] = useState<ImageNodeType>();
 
+    const navigate = useNavigate();
+
+    // Load env variable
     const env = import.meta.env;
     const imageURI = env.VITE_BACKEND_IP_ADDRESS;
 
+    // Get authentication token
+    const { isAuthenticated, checkAuthUser, token } = useAuth();
+
+    useEffect(() => {
+        checkAuthUser();
+    }, [token, isAuthenticated]);
+
+    // Query images
     const { loading, error, data } = useQuery(GET_IMAGES, {
         // pollInterval: 5000,
     });
@@ -46,12 +59,14 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
                     {images.edges.map((item: any) => (
                         <div
                             key={item.node.id}
-                            className="relative group border-none"
+                            className="relative group border-none overflow-visible"
                         >
-                            <ImageItem
-                                className="w-full contrast-125 opacity-85 group-hover:opacity-100 transition-opacity"
-                                item={item}
-                            />
+                            <div className="overflow-hidden">
+                                <ImageItem
+                                    className="w-full contrast-125 opacity-85 group-hover:opacity-100 transition-transform group-hover:scale-125 duration-100 object-cover bg-no-repeat"
+                                    item={item}
+                                />
+                            </div>
 
                             <Button
                                 type="button"
@@ -65,8 +80,12 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
                                 className={`top-0 right-[20px] mt-5 p-1 ${buttonCommonClass}`}
                                 setIsHovered={setIsHovered}
                                 onClick={() => {
-                                    setIsCollectionOpen(true);
-                                    setClickedItem(item);
+                                    if (isAuthenticated) {
+                                        setIsCollectionOpen(true);
+                                        setClickedItem(item);
+                                    } else {
+                                        navigate("/loginPage");
+                                    }
                                 }}
                             >
                                 <IoMdAdd size={buttonIconSize} />

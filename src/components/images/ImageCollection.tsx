@@ -39,20 +39,21 @@ type PropsType = {
 const ImageCollection = ({
     isCollectionOpen,
     setIsCollectionOpen,
-    clickedItem,
+    clickedItem, //Image to be added to collection
     children,
 }: PropsType) => {
     const [isHovered, setIsHovered] = useState(false);
     const [isClickedCB, setIsClickedCB] = useState(false);
+
     const { token } = useAuth();
 
     var settings = {
-        dots: true,
+        // dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        rows: 3,
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        rows: 1,
         swipe: true,
     };
 
@@ -96,6 +97,18 @@ const ImageCollection = ({
         });
     };
 
+    const onCheck = (images: any[]) => {
+        const foundImage = images.find((item) => {
+            if (item) {
+                return item.image.id === clickedItem!.node.id;
+            }
+        });
+        if (foundImage) {
+            return true;
+        }
+        return false;
+    };
+
     return (
         <div
             className={`fixed inset-0 z-20 flex justify-center items-center ${
@@ -119,13 +132,19 @@ const ImageCollection = ({
                             <div className="text-center font-bold text-lg md:text-3xl mb-10">
                                 Select a collection
                             </div>
-                            <div className="slider-container w-[200px] md:w-[400px]">
+                            <div className="slider-container w-[200px] md:w-[400px] p-2">
                                 <Slider {...settings}>
                                     {uCollections.map(
                                         (item: ImageCollectionType) => {
                                             const imageCollections =
                                                 item.node.images;
 
+                                            let isChecked = false;
+
+                                            if (clickedItem) {
+                                                isChecked =
+                                                    onCheck(imageCollections);
+                                            }
                                             return (
                                                 <div key={item.node.id}>
                                                     {imageCollections.length >
@@ -148,6 +167,9 @@ const ImageCollection = ({
                                                                     item.node.id
                                                                 )
                                                             }
+                                                            isChecked={
+                                                                isChecked
+                                                            }
                                                         />
                                                     ) : (
                                                         <>
@@ -164,7 +186,9 @@ const ImageCollection = ({
                                                                         clickedItem
                                                                             ?.node
                                                                             .id!,
-                                                                        item.node.id
+                                                                        item
+                                                                            .node
+                                                                            .id
                                                                     )
                                                                 }
                                                             />
