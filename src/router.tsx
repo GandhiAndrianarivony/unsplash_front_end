@@ -7,6 +7,7 @@ import ViewProfilePage from "./pages/ViewProfilePage.tsx";
 import { Like } from "./components/profiles/Like.tsx";
 import { Statistics } from "./components/profiles/Statistics.tsx";
 import Collection from "./components/profiles/Collection.tsx";
+import InfiniteScrollComponent from "./features/InfiniteScroll/components/InfiniteScrollComponent.tsx";
 
 const router = createBrowserRouter([
     { path: "/", element: <HomePage />, errorElement: <ErrorPage /> },
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
             },
         ],
     },
+    { path: "/infiniteScroll", element: <InfiniteScrollComponent /> },
 ]);
 
 export default router;
