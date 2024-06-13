@@ -1,4 +1,6 @@
 import { useQuery } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import { FaRegHeart } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
@@ -11,10 +13,7 @@ import UserProfile from "../users/UserProfile";
 import { useEffect, useState } from "react";
 import ImageCollection from "./ImageCollection";
 import { ImageNodeType } from "../../types/image";
-import InfiniteScroll from "react-infinite-scroll-component";
-
 import { useAuth } from "../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 
 type PropsType = {
     searchedData?: any;
@@ -32,7 +31,7 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
     // Load env variable
     const env = import.meta.env;
     const imageURI = env.VITE_BACKEND_IP_ADDRESS;
-  
+
     // Get authentication token
     const { isAuthenticated, checkAuthUser, token } = useAuth();
 
@@ -46,13 +45,20 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
         variables: { first: 10 },
         onCompleted: (data) => {
             if (data) {
-                setItems(data.getImages.edges);
                 setHasMore(data.getImages.pageInfo.hasNextPage);
             }
         },
     });
 
-    //Fonction pour charger plus de donnees
+    if (loading) return "Loading ...";
+    if (error) return `Error: ${error}`;
+
+    const buttonIconSize = "20px";
+    const buttonCommonClass =
+        "absolute rounded-md bg-gray-200 opacity-0 group-hover:opacity-100 hover:bg-white p1 cursor-pointer";
+
+    const images = searchedData ?? data.getImages;
+
     const fetchMoreData = () => {
         fetchMore({
             variables: {
@@ -82,16 +88,6 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
         });
     };
 
-    if (loading) return "Loading ...";
-    if (error) return `Error: ${error}`;
-
-    const buttonIconSize = "20px";
-    const buttonCommonClass =
-        "absolute rounded-md bg-gray-200 opacity-0 group-hover:opacity-100 hover:bg-white p1 cursor-pointer";
-
-    const images = searchedData ?? data.getImages;
-
-// TODO: Check infinitescroll implementation
     return (
         <div className="relative">
             <div className="container w-2/3 mx-auto">
@@ -100,7 +96,6 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
                     next={fetchMoreData}
                     hasMore={hasMore}
                     loader={<h4>Loading...</h4>}
-                    endMessage={<h4>Yay! You have seen it all</h4>}
                 >
                     <div
                         className={`w-full gap-4 columns-1 md:columns-3 space-y-4`}
@@ -108,43 +103,14 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
                         {images.edges.map((item: any) => (
                             <div
                                 key={item.node.id}
-                                className="relative group border-none"
-                    {images.edges.map((item: any) => (
-                        <div
-                            key={item.node.id}
-                            className="relative group border-none overflow-visible"
-                        >
-                            <div className="overflow-hidden">
-                                <ImageItem
-                                    className="w-full contrast-125 opacity-85 group-hover:opacity-100 transition-transform group-hover:scale-125 duration-100 object-cover bg-no-repeat"
-                                    item={item}
-                                />
-                            </div>
-
-                            <Button
-                                type="button"
-                                className={`top-0 right-[60px] mt-5 p-1 ${buttonCommonClass}`}
+                                className="relative group border-none overflow-visible"
                             >
-                                <FaRegHeart size={buttonIconSize} />
-                            </Button>
-
-                            <Button
-                                type="button"
-                                className={`top-0 right-[20px] mt-5 p-1 ${buttonCommonClass}`}
-                                setIsHovered={setIsHovered}
-                                onClick={() => {
-                                    if (isAuthenticated) {
-                                        setIsCollectionOpen(true);
-                                        setClickedItem(item);
-                                    } else {
-                                        navigate("/loginPage");
-                                    }
-                                }}
-                            >
-                                <ImageItem
-                                    className="w-full contrast-125 opacity-85 group-hover:opacity-100 transition-opacity"
-                                    item={item}
-                                />
+                                <div className="overflow-hidden">
+                                    <ImageItem
+                                        className="w-full contrast-125 opacity-85 group-hover:opacity-100 transition-transform group-hover:scale-125 duration-100 object-cover bg-no-repeat"
+                                        item={item}
+                                    />
+                                </div>
 
                                 <Button
                                     type="button"
@@ -158,8 +124,12 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
                                     className={`top-0 right-[20px] mt-5 p-1 ${buttonCommonClass}`}
                                     setIsHovered={setIsHovered}
                                     onClick={() => {
-                                        setIsCollectionOpen(true);
-                                        setClickedItem(item);
+                                        if (isAuthenticated) {
+                                            setIsCollectionOpen(true);
+                                            setClickedItem(item);
+                                        } else {
+                                            navigate("/loginPage");
+                                        }
                                     }}
                                 >
                                     <IoMdAdd size={buttonIconSize} />

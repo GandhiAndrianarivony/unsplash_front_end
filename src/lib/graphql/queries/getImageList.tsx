@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 const GET_IMAGES = gql`
-    query GetListOfImages($first: Int!, $after: String) {
+    query GetListOfImages ($first: Int!, $after: String) {
         getImages(first: $first, after: $after) {
             edges {
                 node {
