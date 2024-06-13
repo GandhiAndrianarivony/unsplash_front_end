@@ -20,6 +20,12 @@ const Card = ({
     onClick,
     isChecked = false,
 }: PropsType) => {
+    const [isExist, setIsExist] = useState(isChecked);
+
+    useEffect(() => {
+        setIsExist(isChecked);
+    }, [isChecked]);
+
     return (
         <div
             className="relative max-w-xs overflow-hidden rounded-2xl shadow-lg group"

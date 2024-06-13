@@ -24,7 +24,7 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
     const [isCollectionOpen, setIsCollectionOpen] = useState(false);
     const [clickedItem, setClickedItem] = useState<ImageNodeType>();
     const [hasMore, setHasMore] = useState(true);
-    const [items, setItems] = useState<any[]>([]); 
+    const [items, setItems] = useState<any[]>([]);
 
     const navigate = useNavigate();
 
