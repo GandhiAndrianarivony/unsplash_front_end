@@ -87,7 +87,6 @@ const ImageCollection = ({
     if (error) return `Error: ${error}`;
 
     const uCollections = data.getCollections.edges;
-    console.log(uCollections);
 
     const onAdd = async (imageId: string, collectionId: string) => {
         await addToCollection({
@@ -137,26 +136,6 @@ const ImageCollection = ({
                             <div className="text-center font-bold text-lg md:text-3xl mb-10">
                                 Select a collection
                             </div>
-                            <div className="max-w-lg flex gap-4 flex-wrap justify-center items-center">
-                                {uCollections.map(
-                                    (item: ImageCollectionType) => {
-                                        const imageCollections = item.node.images;
-
-                                        return (
-                                            <div key={item.node.id}>
-                                                {imageCollections.length > 0 ? (
-                                                    // <p>{imageCollections[imageCollections.length-1].image.baseUrl}</p>
-                                                    <Card cardTitle={item.node.name}/>
-                                                ) : (
-                                                    <p> Test</p>
-                                                )}
-                                                <button
-                                                    className="bg-black opacity-70 hover:opacity-100 text-white text-center p-2"
-                                                    onClick={
-                                                        () =>
-                                                            onClick(
-                                                                clickedItem
-                                                                    ?.node.id!,
                             <div className="slider-container w-[200px] md:w-[400px] p-2">
                                 <Slider {...settings}>
                                     {uCollections.map(
@@ -244,3 +223,4 @@ const ImageCollection = ({
 };
 
 export default ImageCollection;
+// 
