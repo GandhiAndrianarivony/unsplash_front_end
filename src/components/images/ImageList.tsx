@@ -144,4 +144,3 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
 }
 
 export default ImageList;
-

@@ -4,12 +4,15 @@ import Input from "../../../components/ui/Input";
 import { useMutation } from "@apollo/client";
 import AUTHENTICATE_USER from "../../../lib/graphql/mutations/authenticateUser";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../hooks/useAuth";
 
 function Login() {
     const initAuthData = { username: "", password: "" };
     const [authData, setAuthData] = useState(initAuthData);
     const [errorrMesssage, setErrorMessage] = useState("");
     const navigate = useNavigate();
+
+    const { checkAuthUser } = useAuth();
 
     const [authenticateUser, {}] = useMutation(AUTHENTICATE_USER);
 
@@ -31,6 +34,7 @@ function Login() {
                 // Save authentication token to local storage
                 localStorage.setItem("tokenAuth", data.tokenAuth.token.token);
                 // Re-initialize authData to empty
+                checkAuthUser();
                 setAuthData(initAuthData);
                 navigate("/");
             }

@@ -88,7 +88,7 @@ const ImageCollection = ({
 
     const uCollections = data.getCollections.edges;
 
-    const onClick = async (imageId: string, collectionId: string) => {
+    const onAdd = async (imageId: string, collectionId: string) => {
         await addToCollection({
             variables: {
                 imageId: imageId,
@@ -96,6 +96,10 @@ const ImageCollection = ({
             },
         });
     };
+     
+    const onRemove = () => {
+        console.log("Remove image from collection")
+    }
 
     const onCheck = (images: any[]) => {
         const foundImage = images.find((item) => {
@@ -136,14 +140,11 @@ const ImageCollection = ({
                                 <Slider {...settings}>
                                     {uCollections.map(
                                         (item: ImageCollectionType) => {
-                                            const imageCollections =
-                                                item.node.images;
+                                            const imageCollections = item.node.images;
 
                                             let isChecked = false;
-
                                             if (clickedItem) {
-                                                isChecked =
-                                                    onCheck(imageCollections);
+                                                isChecked = onCheck(imageCollections);
                                             }
                                             return (
                                                 <div key={item.node.id}>
@@ -155,18 +156,13 @@ const ImageCollection = ({
                                                             }
                                                             imageSource={
                                                                 imageCollections[
-                                                                    imageCollections.length -
-                                                                        1
-                                                                ].image.baseUrl
+                                                                    imageCollections.length - 1].image.baseUrl
                                                             }
-                                                            onClick={() =>
-                                                                onClick(
-                                                                    clickedItem
-                                                                        ?.node
-                                                                        .id!,
-                                                                    item.node.id
-                                                                )
-                                                            }
+                                                            onAdd={() => onAdd(
+                                                                clickedItem?.node.id!,
+                                                                item.node.id
+                                                            )}
+                                                            onRemove={() => onRemove()}
                                                             isChecked={
                                                                 isChecked
                                                             }
@@ -175,22 +171,14 @@ const ImageCollection = ({
                                                         <>
                                                             <Card
                                                                 cardTitle={
-                                                                    item.node
-                                                                        .name
+                                                                    item.node.name
                                                                 }
-                                                                imageSource={
-                                                                    imgSrc
-                                                                }
-                                                                onClick={() =>
-                                                                    onClick(
-                                                                        clickedItem
-                                                                            ?.node
-                                                                            .id!,
-                                                                        item
-                                                                            .node
-                                                                            .id
-                                                                    )
-                                                                }
+                                                                imageSource={imgSrc}
+                                                                onAdd={() => onAdd(
+                                                                    clickedItem?.node.id!,
+                                                                    item.node.id
+                                                                )}
+                                                                onRemove={() => onRemove()}
                                                             />
                                                         </>
                                                     )}
@@ -204,7 +192,7 @@ const ImageCollection = ({
                     )}
                 </div>
                 {children}
-                {!isClickedCB && (
+                {!isClickedCB ? (
                     <Button
                         type="button"
                         className={iconButtonClass}
@@ -220,8 +208,7 @@ const ImageCollection = ({
                             <p></p>
                         )}
                     </Button>
-                )}
-                {isClickedCB && (
+                ) : (
                     <Button
                         type="button"
                         className={iconButtonClass}

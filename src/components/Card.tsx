@@ -1,12 +1,14 @@
+import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { MdOutlineIndeterminateCheckBox } from "react-icons/md";
-
 
 type PropsType = {
     imageSource?: string;
     cardTitle?: string;
     isChecked?: boolean;
-    onClick: () => void;
+    isAdded?: boolean;
+    onAdd: () => void;
+    onRemove: () => void;
 };
 
 const env = import.meta.env;
@@ -17,16 +19,18 @@ const imgSrc = `http://${imageURI}:${env.VITE_BACKEND_PORT}/media/a1922f08-b564-
 const Card = ({
     imageSource = imgSrc,
     cardTitle = "",
-    onClick,
     isChecked = false,
+    onAdd,
+    onRemove,
 }: PropsType) => {
+    const [isExist, setIsExist] = useState(isChecked);
+
+    useEffect(() => {
+        setIsExist(isChecked);
+    }, [isChecked]);
+
     return (
-        <div
-            className="relative max-w-xs overflow-hidden rounded-2xl shadow-lg group"
-            onClick={() => {
-                onClick();
-            }}
-        >
+        <div className="relative max-w-xs overflow-hidden rounded-2xl shadow-lg group">
             <div>
                 <img
                     src={`http://${imageURI}:${env.VITE_BACKEND_PORT}${imageSource}`}
@@ -40,7 +44,7 @@ const Card = ({
                 </div>
             </div>
             <div className="absolute bottom-0 right-0 p-4">
-                {isChecked ? (
+                {isExist ? (
                     <div>
                         <MdOutlineIndeterminateCheckBox
                             color="lightgreen"
@@ -48,7 +52,8 @@ const Card = ({
                             className="hover:cursor-pointer"
                             onClick={(e) => {
                                 e.stopPropagation();
-                                console.log("Checked");
+                                onRemove();
+                                setIsExist(false)
                             }}
                         />
                     </div>
@@ -60,7 +65,8 @@ const Card = ({
                             className="hover:cursor-pointer"
                             onClick={(e) => {
                                 e.stopPropagation();
-                                console.log("Checked");
+                                onAdd();
+                                setIsExist(true)
                             }}
                         />
                     </div>
