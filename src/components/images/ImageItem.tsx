@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Blurhash } from "react-blurhash";
 
 type ImageUrlType = {
@@ -16,7 +16,7 @@ type NodeType = {
     fileName: string;
     id: string;
     imageUrl?: ImageUrlType;
-    user: { profile: { baseUrl: string }, username: string };
+    user: { profile: { baseUrl: string }; username: string };
 };
 
 export type PropsType = {
@@ -30,6 +30,11 @@ function ImageItem({ item, className = "" }: PropsType) {
     const env = import.meta.env;
     const imageURI = env.VITE_BACKEND_IP_ADDRESS;
 
+    const imageSrc = `http://${imageURI}:${env.VITE_BACKEND_PORT}${item.node.baseUrl}`;
+
+    useEffect(() => {
+    }, [isImageLoaded]);
+
     return (
         <>
             {!isImageLoaded && (
@@ -41,10 +46,10 @@ function ImageItem({ item, className = "" }: PropsType) {
                 />
             )}
             <img
-                src={`http://${imageURI}:${env.VITE_BACKEND_PORT}${item.node.baseUrl}`}
+                src={imageSrc}
                 alt=""
                 className={className}
-                onLoad={() => setIsImageLoaded(!isImageLoaded)}
+                onLoad={() => setIsImageLoaded(true)}
                 onError={() => setIsImageLoaded(false)}
             />
         </>
