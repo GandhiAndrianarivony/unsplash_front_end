@@ -1,4 +1,4 @@
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 
 import { FaRegHeart } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
@@ -8,10 +8,12 @@ import GET_IMAGES from "../../lib/graphql/queries/getImageList";
 import ImageItem from "./ImageItem";
 import Button from "../ui/Button";
 import UserProfile from "../users/UserProfile";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ImageCollection from "./ImageCollection";
 import { ImageNodeType } from "../../types/image";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 type PropsType = {
     searchedData?: any;
@@ -22,10 +24,19 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
     const [isCollectionOpen, setIsCollectionOpen] = useState(false);
     const [clickedItem, setClickedItem] = useState<ImageNodeType>();
     const [hasMore, setHasMore] = useState(true);
-    const [items, setItems] = useState<any[]>([]);
+    const [items, setItems] = useState<any[]>([]); 
 
+    const navigate = useNavigate();
+
+    // Load env variable
     const env = import.meta.env;
     const imageURI = env.VITE_BACKEND_IP_ADDRESS;
+
+    const { isAuthenticated, checkAuthUser, token } = useAuth();
+
+    useEffect(() => {
+        checkAuthUser();
+    }, [token, isAuthenticated]);
 
     const { loading, error, data, fetchMore } = useQuery(GET_IMAGES, {
         // pollInterval: 5000,
@@ -176,3 +187,4 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
 }
 
 export default ImageList;
+

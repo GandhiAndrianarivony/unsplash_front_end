@@ -22,12 +22,6 @@ const client = new ApolloClient({
     link: link,
 });
 
-// // Check authentication token expiration
-// const tokenAuth = localStorage.getItem("tokenAuth");
-// if (isAuthTokenExpired(tokenAuth)) {
-//     localStorage.removeItem("tokenAuth");
-// }
-
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <ApolloProvider client={client}>
