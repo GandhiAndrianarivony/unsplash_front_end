@@ -18,6 +18,10 @@ import { useAuth } from "../../hooks/useAuth";
 import { ImageNodeType } from "../../types/image";
 import { ADD_IMAGE_TO_COLLECTION } from "../../lib/graphql/mutations/addImageToCollection";
 import Card from "../Card";
+import REMOVE_IMAGE_FROM_COLLECTION from "../../lib/graphql/mutations/removeImageFromCollection";
+
+const env = import.meta.env;
+const imageURI = env.VITE_BACKEND_IP_ADDRESS;
 
 type CollectionType = {
     name: string;
@@ -47,7 +51,7 @@ const ImageCollection = ({
 
     const { token } = useAuth();
 
-    var settings = {
+    const SLIDER_SETTING = {
         // dots: true,
         infinite: true,
         speed: 500,
@@ -57,22 +61,27 @@ const ImageCollection = ({
         swipe: true,
     };
 
-    // =================================================================
-    const imgSrc = `/media/a1922f08-b564-4b52-a34f-e575e9d48c98.JPEG`;
-    // =================================================================
-
     const iconButtonClass =
         "absolute left-0 top-0 p-1 my-3 mx-3 opacity-70 hover:opacity-100 transition-opacity duration-200";
     const hoveringTextClass =
         "absolute whitespace-nowrap bg-white p-1 border-2 m-8 top-0";
 
-    const [addToCollection, {}] = useMutation(ADD_IMAGE_TO_COLLECTION, {
+    // Define context
+    const context = {
         context: {
             headers: {
                 authorization: `JWT ${token}`,
             },
         },
-    });
+    };
+    // Add image to collection [Mutation]
+    const [addToCollection, {}] = useMutation(ADD_IMAGE_TO_COLLECTION, context);
+
+    // Remove image from collection [Mutation]
+    const [removeImageFromCollection, {}] = useMutation(
+        REMOVE_IMAGE_FROM_COLLECTION,
+        context
+    );
 
     const { loading, error, data, refetch } = useQuery(
         GET_USER_IMAGE_COLLECTION,
@@ -96,10 +105,15 @@ const ImageCollection = ({
             },
         });
     };
-     
-    const onRemove = () => {
-        console.log("Remove image from collection")
-    }
+
+    const onRemove = async (imageId: string, collectionId: string) => {
+        await removeImageFromCollection({
+            variables: {
+                imageId: imageId,
+                collectionId: collectionId,
+            },
+        });
+    };
 
     const onCheck = (images: any[]) => {
         const foundImage = images.find((item) => {
@@ -137,32 +151,41 @@ const ImageCollection = ({
                                 Select a collection
                             </div>
                             <div className="slider-container w-[200px] md:w-[400px] p-2">
-                                <Slider {...settings}>
+                                <Slider {...SLIDER_SETTING}>
                                     {uCollections.map(
-                                        (item: ImageCollectionType) => {
-                                            const imageCollections = item.node.images;
+                                        (collection: ImageCollectionType) => {
+                                            const imageCollections = collection.node.images;
 
                                             let isChecked = false;
                                             if (clickedItem) {
-                                                isChecked = onCheck(imageCollections);
+                                                isChecked =
+                                                    onCheck(imageCollections);
                                             }
                                             return (
-                                                <div key={item.node.id}>
+                                                <div key={collection.node.id}>
                                                     {imageCollections.length >
                                                     0 ? (
                                                         <Card
                                                             cardTitle={
-                                                                item.node.name
+                                                                collection.node.name
                                                             }
+                                                            
                                                             imageSource={
-                                                                imageCollections[
-                                                                    imageCollections.length - 1].image.baseUrl
+                                                                `http://${imageURI}:${env.VITE_BACKEND_PORT}${imageCollections[
+                                                                    imageCollections.length - 1].image.baseUrl}`
                                                             }
-                                                            onAdd={() => onAdd(
-                                                                clickedItem?.node.id!,
-                                                                item.node.id
-                                                            )}
-                                                            onRemove={() => onRemove()}
+                                                            onAdd={() =>
+                                                                onAdd(
+                                                                    clickedItem?.node.id!,
+                                                                    collection.node.id
+                                                                )
+                                                            }
+                                                            onRemove={() =>
+                                                                onRemove(
+                                                                    clickedItem?.node.id!, 
+                                                                    collection.node.id
+                                                                )
+                                                            }
                                                             isChecked={
                                                                 isChecked
                                                             }
@@ -171,14 +194,21 @@ const ImageCollection = ({
                                                         <>
                                                             <Card
                                                                 cardTitle={
-                                                                    item.node.name
+                                                                    collection.node.name
                                                                 }
-                                                                imageSource={imgSrc}
-                                                                onAdd={() => onAdd(
-                                                                    clickedItem?.node.id!,
-                                                                    item.node.id
-                                                                )}
-                                                                onRemove={() => onRemove()}
+                                                                imageSource={
+                                                                    `/src/assets/images/collection-bg.jpg`
+                                                                }
+                                                                onAdd={() =>
+                                                                    onAdd(
+                                                                        clickedItem?.node.id!,
+                                                                        collection.node.id
+                                                                    )
+                                                                }
+                                                                onRemove={() =>
+                                                                    // onRemove()
+                                                                    console.log("[INFO] No image found")
+                                                                }
                                                             />
                                                         </>
                                                     )}
@@ -223,4 +253,4 @@ const ImageCollection = ({
 };
 
 export default ImageCollection;
-// 
+//

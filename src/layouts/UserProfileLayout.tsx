@@ -6,17 +6,17 @@ const UserProfileLayout = () => {
             <div className="flex justify-center gap-5 ">
                 <div className="bg-black p-1">
                     <Link to="likes/" className="text-white text-center">
-                        like
+                        Like
                     </Link>
                 </div>
                 <div className="bg-black p-1">
                     <Link to="stats/" className="text-white text-center">
-                        stats
+                        Stats
                     </Link>
                 </div>
                 <div className="bg-black p-1">
                     <Link to="collections/" className="text-white text-center">
-                        collections
+                        Collections
                     </Link>
                 </div>
             </div>
