@@ -7,7 +7,6 @@ import createUploadLink from "apollo-upload-client/createUploadLink.mjs";
 
 import router from "./router";
 import "./index.css";
-// import { isAuthTokenExpired } from "./utils/helpers";
 import AuthContextProvider from "./context/AuthContext";
 
 const env = import.meta.env;

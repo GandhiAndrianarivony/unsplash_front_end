@@ -23,6 +23,9 @@ const GET_SEARCH_IMAGES = gql`
                         }
                         username
                     }
+                    usersLike {
+                        pk
+                    }
                 }
             }
             pageInfo {

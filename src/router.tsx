@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         element: <ViewProfilePage />,
         children: [
             {
-                path: "likes/",
+                index:true,
                 element: <Like />,
             },
             {
