@@ -5,7 +5,7 @@ function ViewProfilePage() {
     return (
         <div className="pb-10">
             <Header />
-            <div>Profile Page</div>
+            {/* <div>Profile Page</div> */}
             <UserProfileLayout/>
         </div>
     );
