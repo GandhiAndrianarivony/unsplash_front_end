@@ -23,7 +23,7 @@ function ListMenu({
 }: PropsType) {
     const [menuOpen, setMenuOpen] = useState(false);
 
-    const { token, setIsAuthenticated } = useAuth();
+    const { token, setIsAuthenticated, checkAuthUser } = useAuth();
 
     // CSS of the menu
     const textMenuStyle =
@@ -68,6 +68,7 @@ function ListMenu({
                     }
                     logout();
                     setIsAuthenticated(false);
+                    checkAuthUser()
                 }}
                 onClick={(e) => e.stopPropagation()}
             />

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import Header from "../components/Header";
-import UserProfileLayout from "../layouts/UserProfileLayout";
 
-function ViewProfilePage() {
+const Account = () => {
     const [text, setText] = useState<string | null>("");
     const [isIconClicked, setIsIconClicked] = useState(false);
     return (
@@ -12,11 +11,9 @@ function ViewProfilePage() {
                 setIsIconClicked={setIsIconClicked}
                 setText={setText}
                 text={text}
-                className=""
             />
-            <UserProfileLayout />
         </div>
     );
-}
+};
 
-export default ViewProfilePage;
+export default Account;

@@ -8,6 +8,7 @@ import { Like } from "./components/profiles/Like.tsx";
 import { Statistics } from "./components/profiles/Statistics.tsx";
 import Collection from "./components/profiles/Collection.tsx";
 import InfiniteScrollComponent from "./features/InfiniteScroll/components/InfiniteScrollComponent.tsx";
+import { Account } from "./pages";
 
 const router = createBrowserRouter([
     { path: "/", element: <HomePage />, errorElement: <ErrorPage /> },
@@ -18,11 +19,11 @@ const router = createBrowserRouter([
         element: <ViewProfilePage />,
         children: [
             {
-                path: "likes/",
+                index: true,
                 element: <Like />,
             },
             {
-                path: "stats/",
+                path: "stats",
                 element: <Statistics />,
             },
             {
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
         ],
     },
     { path: "/infiniteScroll", element: <InfiniteScrollComponent /> },
+    { path: "/account", element: <Account /> },
 ]);
 
 export default router;

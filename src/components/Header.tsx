@@ -10,6 +10,7 @@ type PropsType = {
     text?: string | null;
     isIconClicked?: boolean | null;
     setIsIconClicked?: (e: boolean) => void;
+    className?: string;
 };
 
 function Header({
@@ -18,6 +19,7 @@ function Header({
     text,
     isIconClicked,
     setIsIconClicked,
+    className = "pb-[80px]",
 }: PropsType) {
     const [username, setUsername] = useState("");
 
@@ -28,9 +30,9 @@ function Header({
     }, [token, isAuthenticated]);
 
     return (
-        <div className="pb-[80px]">
+        <div className={className}>
             <div className="flex fixed w-[100%] bg-white z-10">
-                <div className="flex-1">
+                <div className="flex-1 mb-1">
                     <SearchBar
                         text={text}
                         setSearchData={setSearchData}

@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_USER_IMAGE_COLLECTION = gql`
-    query MyQuery {
+    query GetUserOwnedCollection {
         getCollections {
             edges {
                 node {

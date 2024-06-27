@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 type ProsType = {
     label?: String;
     type: "submit" | "reset" | "button" | undefined;

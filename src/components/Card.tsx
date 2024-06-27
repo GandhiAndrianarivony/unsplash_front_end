@@ -11,13 +11,8 @@ type PropsType = {
     onRemove: () => void;
 };
 
-const env = import.meta.env;
-const imageURI = env.VITE_BACKEND_IP_ADDRESS;
-
-const imgSrc = `http://${imageURI}:${env.VITE_BACKEND_PORT}/media/a1922f08-b564-4b52-a34f-e575e9d48c98.JPEG`;
-
 const Card = ({
-    imageSource = imgSrc,
+    imageSource,
     cardTitle = "",
     isChecked = false,
     onAdd,
@@ -33,7 +28,7 @@ const Card = ({
         <div className="relative max-w-xs overflow-hidden rounded-2xl shadow-lg group">
             <div>
                 <img
-                    src={`http://${imageURI}:${env.VITE_BACKEND_PORT}${imageSource}`}
+                    src={imageSource}
                     alt=""
                     className="transition-transform group-hover:scale-110 duration-200 object-cover bg-no-repeat h-[200px] w-[172px]"
                 />
