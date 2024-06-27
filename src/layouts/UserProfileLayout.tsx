@@ -5,7 +5,7 @@ const UserProfileLayout = () => {
         <>
             <div className="flex justify-center gap-5 ">
                 <div className="bg-black p-1">
-                    <Link to="likes/" className="text-white text-center">
+                    <Link to="" className="text-white text-center">
                         Like
                     </Link>
                 </div>

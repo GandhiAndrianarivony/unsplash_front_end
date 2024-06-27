@@ -1,6 +1,8 @@
 import { createContext, useState } from "react";
 import { ChildrenType, UserType } from "../types";
 import { isAuthTokenExpired } from "../utils/helpers";
+import { useLazyQuery } from "@apollo/client";
+import { GET_CURRENT_USER } from "../lib/graphql/queries";
 
 export type ContextType = {
     user: UserType;
@@ -9,6 +11,7 @@ export type ContextType = {
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
     checkAuthUser: () => boolean;
     token: string | null;
+    userData: any;
 };
 
 const INITIAL_USER = {
@@ -23,6 +26,7 @@ const INITIAL_STATE = {
     setIsAuthenticated: () => {},
     checkAuthUser: () => false as boolean,
     token: null,
+    userData: undefined,
 };
 
 // Create context
@@ -34,9 +38,14 @@ export default function AuthContextProvider({ children }: ChildrenType) {
     const [user, setUser] = useState<UserType>(INITIAL_USER);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+    const [getCurrentUser, { loading, error, data }] =
+        useLazyQuery(GET_CURRENT_USER);
+
+    if (loading) return "Loading ...";
+    if (error) return `Error: ${error}`;
+
     const checkAuthUser = (): boolean => {
         const TOKEN_AUTH = localStorage.getItem("tokenAuth");
-
         if (TOKEN_AUTH && isAuthTokenExpired(TOKEN_AUTH)) {
             localStorage.removeItem("tokenAuth");
             setToken(null);
@@ -44,6 +53,9 @@ export default function AuthContextProvider({ children }: ChildrenType) {
         } else if (TOKEN_AUTH) {
             setIsAuthenticated(true);
             setToken(TOKEN_AUTH);
+            getCurrentUser({
+                context: { headers: { authorization: `JWT ${TOKEN_AUTH}` } },
+            });
             return true;
         } else {
             setToken(null);
@@ -58,6 +70,7 @@ export default function AuthContextProvider({ children }: ChildrenType) {
         setIsAuthenticated,
         checkAuthUser,
         token: token,
+        userData: data
     };
     return (
         <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
