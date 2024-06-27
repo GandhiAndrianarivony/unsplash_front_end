@@ -55,7 +55,7 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
 
     const buttonIconSize = "20px";
     const buttonCommonClass =
-        "absolute rounded-md bg-gray-200 opacity-0 group-hover:opacity-100 hover:bg-white p1 cursor-pointer";
+        "absolute rounded-md bg-gray-200 opacity-0 group-hover:opacity-100 hover:bg-white p-1 cursor-pointer";
 
     const images = searchedData ?? data.getImages;
 
@@ -134,7 +134,7 @@ function ImageList({ searchedData }: PropsType): string | JSX.Element {
                                 >
                                     <IoMdAdd size={buttonIconSize} />
                                     {isHovered ? (
-                                        <div className="absolute border-2 whitespace-nowrap top-0 right-[-230px] z-10 bg-white mt-7 p-1">
+                                        <div className="absolute border-2 whitespace-nowrap top-0 right-0 bg-white mt-8 p-1">
                                             Add this image to a collection
                                         </div>
                                     ) : (
