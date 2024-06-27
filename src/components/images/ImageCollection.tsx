@@ -253,4 +253,3 @@ const ImageCollection = ({
 };
 
 export default ImageCollection;
-//
