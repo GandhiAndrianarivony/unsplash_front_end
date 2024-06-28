@@ -19,7 +19,7 @@ const UserProfileLayout = () => {
 
             <div className="flex gap-5 mt-5 ms-5">
                 <div className="p-1">
-                    <Link to="likes/" className="text-gray-500 flex items-center gap-2 hover:text-black focus:text-black focus:border-b-2 focus:border-black focus:pb-4">
+                    <Link to="" className="text-gray-500 flex items-center gap-2 hover:text-black focus:text-black focus:border-b-2 focus:border-black focus:pb-4">
                         <FaHeart />
                         like
                     </Link>
