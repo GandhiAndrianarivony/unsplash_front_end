@@ -2,14 +2,17 @@ import { useState } from "react";
 import Button from "../../../components/ui/Button";
 import Input from "../../../components/ui/Input";
 import { useMutation } from "@apollo/client";
-import AUTHENTICATE_USER from "../../../graphql/mutations/authenticateUser";
+import AUTHENTICATE_USER from "../../../lib/graphql/mutations/authenticateUser";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../hooks/useAuth";
 
 function Login() {
     const initAuthData = { username: "", password: "" };
     const [authData, setAuthData] = useState(initAuthData);
     const [errorrMesssage, setErrorMessage] = useState("");
     const navigate = useNavigate();
+
+    const { checkAuthUser } = useAuth();
 
     const [authenticateUser, {}] = useMutation(AUTHENTICATE_USER);
 
@@ -31,6 +34,7 @@ function Login() {
                 // Save authentication token to local storage
                 localStorage.setItem("tokenAuth", data.tokenAuth.token.token);
                 // Re-initialize authData to empty
+                checkAuthUser();
                 setAuthData(initAuthData);
                 navigate("/");
             }
@@ -70,8 +74,14 @@ function Login() {
                     />
                     <p className="text-red-600 mt-3">{errorrMesssage}</p>
                     <div>
-                        You are not a member ?  
-                        <Link to="/signupPage" className="text-blue-600 hover:text-blue-600/50"> Register now</Link>
+                        You are not a member ?
+                        <Link
+                            to="/signupPage"
+                            className="text-blue-600 hover:text-blue-600/50"
+                        >
+                            {" "}
+                            Register now
+                        </Link>
                     </div>
                 </form>
             </div>

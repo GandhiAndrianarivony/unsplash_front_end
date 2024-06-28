@@ -1,0 +1,54 @@
+Carousel: https://www.youtube.com/watch?v=XJSOgV4VELk
+
+     {uCollections.map(
+                                        (item: ImageCollectionType) => {
+                                            const imageCollections =
+                                                item.node.images;
+
+                                            return (
+                                                <div key={item.node.id}>
+                                                    {imageCollections.length >
+                                                    0 ? (
+                                                        // <p>{imageCollections[imageCollections.length-1].image.baseUrl}</p>
+                                                        <Card
+                                                            cardTitle={
+                                                                item.node.name
+                                                            }
+                                                            imageSource={
+                                                                imageCollections[
+                                                                    imageCollections.length -
+                                                                        1
+                                                                ].image.baseUrl
+                                                            }
+                                                        />
+                                                    ) : (
+                                                        <>
+                                                            <Card
+                                                                cardTitle={
+                                                                    item.node
+                                                                        .name
+                                                                }
+                                                                imageSource={
+                                                                    imgSrc
+                                                                }
+                                                            />
+                                                        </>
+                                                    )}
+                                                    {/* <button
+                                                    className="bg-black opacity-70 hover:opacity-100 text-white text-center p-2"
+                                                    onClick={
+                                                        () =>
+                                                            onClick(
+                                                                clickedItem
+                                                                    ?.node.id!,
+                                                                item.node.id
+                                                            )
+                                                        // TODO: Add and Remove image to a collection
+                                                    }
+                                                >
+                                                    {item.node.name}
+                                                </button> */}
+                                                </div>
+                                            );
+                                        }
+                                    )}

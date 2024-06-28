@@ -7,6 +7,7 @@ import createUploadLink from "apollo-upload-client/createUploadLink.mjs";
 
 import router from "./router";
 import "./index.css";
+import AuthContextProvider from "./context/AuthContext";
 
 const env = import.meta.env;
 
@@ -23,7 +24,9 @@ const client = new ApolloClient({
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <ApolloProvider client={client}>
-            <RouterProvider router={router}/>
+            <AuthContextProvider>
+                <RouterProvider router={router} />
+            </AuthContextProvider>
         </ApolloProvider>
     </React.StrictMode>
 );

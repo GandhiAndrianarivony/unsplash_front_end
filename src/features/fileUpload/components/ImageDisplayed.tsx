@@ -13,7 +13,7 @@ function ImageDisplayed({ isImageLoaded, file }: PropsType) {
                     <img
                         src={file ? URL.createObjectURL(file) : ""}
                         alt="Image sélectionnée"
-                        className="max-w-100 rounded-lg"
+                        className="max-w-3/4 rounded-lg h-64"
                     />
                 </div>
             ) : (

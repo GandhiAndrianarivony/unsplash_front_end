@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import Input from "../../../components/ui/Input";
-import CREATE_USER from "../../../graphql/mutations/signUp";
+import CREATE_USER from "../../../lib/graphql/mutations/signUp";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../components/ui/Button";

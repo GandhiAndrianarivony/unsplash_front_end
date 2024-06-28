@@ -3,6 +3,10 @@ import { jwtDecode } from "jwt-decode";
 type DecodedJWTType = {
     payload: string;
 };
+const getRandomChoice = (data: any[]): any => {
+    const randomIndex = Math.floor(Math.random() * data.length);
+    return data[randomIndex];
+};
 
 const generateRandomString = (lenght: number = 5): string => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -14,7 +18,12 @@ const generateRandomString = (lenght: number = 5): string => {
     return result;
 };
 
+const capitalizeFirstLetter = (letter: string): string => {
+    return letter.charAt(0).toUpperCase() + letter.slice(1).toLowerCase();
+};
+
 const convertToDate = (date_string: string): number => {
+    // Convert datetime string to data milliseconds
     const [datePart, millisecondsPart] = date_string.split(".");
     const date = new Date(datePart);
 
@@ -22,7 +31,10 @@ const convertToDate = (date_string: string): number => {
     return date.setMilliseconds(milliseconds);
 };
 
-const isAuthTokenExpired = (authToken: string): boolean => {
+const isAuthTokenExpired = (authToken: string | null): boolean => {
+    if (!authToken) {
+        return true;
+    }
     const decodedJWTToken = jwtDecode<DecodedJWTType>(authToken);
 
     // Convert expired date to milliseconds
@@ -38,4 +50,10 @@ const isAuthTokenExpired = (authToken: string): boolean => {
     return false;
 };
 
-export { generateRandomString, convertToDate, isAuthTokenExpired };
+export {
+    generateRandomString,
+    convertToDate,
+    isAuthTokenExpired,
+    capitalizeFirstLetter,
+    getRandomChoice,
+};

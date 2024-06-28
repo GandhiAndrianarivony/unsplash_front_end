@@ -3,7 +3,7 @@ import { useLazyQuery } from "@apollo/client";
 
 import Button from "../ui/Button";
 import Input from "../ui/Input";
-import GET_SEARCH_IMAGES from "../../graphql/queries/getSearchImageList";
+import GET_SEARCH_IMAGES from "../../lib/graphql/queries/getSearchImageList";
 
 import { CiSearch } from "react-icons/ci";
 import { FaHome } from "react-icons/fa";
@@ -16,7 +16,6 @@ type PropsType = {
 };
 
 function SearchBar({ setSearchData, setText, text }: PropsType) {
-
     // Query being used based on user event (-> onSubmit)
     const [getSearchImageList, { loading, error, data }] =
         useLazyQuery(GET_SEARCH_IMAGES);
