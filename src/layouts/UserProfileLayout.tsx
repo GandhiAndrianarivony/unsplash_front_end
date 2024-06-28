@@ -2,28 +2,21 @@ import { FaHeart } from "react-icons/fa";
 import { IoMdStats } from "react-icons/io";
 import { MdCollections } from "react-icons/md";
 import { Link, Outlet } from "react-router-dom";
+import artImage from '../assets/images/art.jpg';
+import profilImage from'../assets/images/profile.png';
 
 const UserProfileLayout = () => {
     return (
         <div>
-            <div className="flex justify-center">
-                <img src="/profile.png" alt="" />
-
-                <div className="">
-                    <div className="flex">
-                        <p className="text-3xl font-bold m-3">
-                            Nom de l'utilisateur
-                        </p>
-                        <button className="border-2 rounded justify-self-end p-2 my-3">
-                            Edit profile
-                        </button>
+            <div className="px-44">
+                <div className="relative h-96 rounded-b">
+                    <img className="h-96 w-full object-cover rounded-b" src={artImage} alt="cover"/>
+                    <div className="absolute start-12 -bottom-20">
+                        <img className="object-cover border-4 border-white w-40 h-40 rounded-full" src={profilImage} alt="" />
                     </div>
-                    <p className="m-3">
-                        Download free, beautiful high-quality photos curated by
-                        Andrianarivony.
-                    </p>
                 </div>
             </div>
+
             <div className="flex gap-5 mt-5 ms-5">
                 <div className="p-1">
                     <Link to="" className="text-gray-500 flex items-center gap-2 hover:text-black focus:text-black focus:border-b-2 focus:border-black focus:pb-4">
