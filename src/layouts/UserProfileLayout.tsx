@@ -14,7 +14,7 @@ const UserProfileLayout = () => {
                         <p className="text-3xl font-bold m-3">
                             Nom de l'utilisateur
                         </p>
-                        <button className="border border-2 rounded justify-self-end p-2 my-3">
+                        <button className="border-2 rounded justify-self-end p-2 my-3">
                             Edit profile
                         </button>
                     </div>
@@ -26,7 +26,7 @@ const UserProfileLayout = () => {
             </div>
             <div className="flex gap-5 mt-5 ms-5">
                 <div className="p-1">
-                    <Link to="likes/" className="text-gray-500 flex items-center gap-2 hover:text-black focus:text-black focus:border-b-2 focus:border-black focus:pb-4">
+                    <Link to="" className="text-gray-500 flex items-center gap-2 hover:text-black focus:text-black focus:border-b-2 focus:border-black focus:pb-4">
                         <FaHeart />
                         like
                     </Link>
