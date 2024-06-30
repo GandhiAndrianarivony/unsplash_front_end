@@ -6,9 +6,15 @@ type PropsType = {
     authToken: string | null;
     setIsIconClicked?: () => void;
     setUsername?: (e: any) => void;
+    className?: string;
 };
 
-function User({ authToken, setIsIconClicked, setUsername }: PropsType) {
+function User({
+    authToken,
+    setIsIconClicked,
+    setUsername,
+    className = "w-[36px] h-[36px] rounded-full cursor-pointer",
+}: PropsType) {
     const { loading, error, data } = useQuery(GET_CURRENT_USER, {
         context: {
             headers: {
@@ -28,7 +34,7 @@ function User({ authToken, setIsIconClicked, setUsername }: PropsType) {
                     setUsername(data.getCurrentUser.username);
                 }
             }}
-            className="w-[36px] h-[36px] rounded-full cursor-pointer"
+            className={className}
             profile={data.getCurrentUser.profile.baseUrl}
         />
     );
