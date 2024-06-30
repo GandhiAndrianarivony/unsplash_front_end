@@ -8,6 +8,7 @@ import { Like } from "./components/profiles/Like.tsx";
 import { Statistics } from "./components/profiles/Statistics.tsx";
 import Collection from "./components/profiles/Collection.tsx";
 import { Account } from "./pages";
+import { UserInfoForm } from "./features/index.ts";
 
 const router = createBrowserRouter([
     { path: "/", element: <HomePage />, errorElement: <ErrorPage /> },
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
         ],
     },
     { path: "/account", element: <Account /> },
+    {path: "/user_info", element: <UserInfoForm/>}
 ]);
 
 export default router;
