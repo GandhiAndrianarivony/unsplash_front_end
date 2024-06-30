@@ -27,7 +27,7 @@ function UserIconMenu({
                     <Link to="/profile">View Profile</Link>
                 </div>
                 <div className={userIconMenuClassName}>
-                    <Link to="/account">Account setting</Link>
+                    <Link to="/account">Account settings</Link>
                 </div>
                 <hr className="mb-2" />
                 <div className={userIconMenuClassName}>
