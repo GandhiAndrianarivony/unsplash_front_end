@@ -50,10 +50,10 @@ const UserProfileLayout = () => {
 
                 <div className="flex justify-between mt-20">
                     <div className="ms-12 text-3xl font-bold">
-                        {userData.getCurrentUser.username}
+                        {userData?.getCurrentUser.username}
                     </div>
                     <div className="flex items-center space-x-2">
-                        <Link to="/user_info" className="flex items-center rounded border border-2 px-2 py-1 gap-2 hover:bg-gray-100 font-bold">
+                        <Link to="/user_info" className="flex items-center rounded border-2 px-2 py-1 gap-2 hover:bg-gray-100 font-bold">
                             <MdEdit/>
                             Edit Profil
                         </Link>
