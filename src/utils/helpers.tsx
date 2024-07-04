@@ -50,10 +50,14 @@ const isAuthTokenExpired = (authToken: string | null): boolean => {
     return false;
 };
 
+const sleep = (milliseconds: number) =>
+    new Promise((resolve) => setTimeout(resolve, milliseconds));
+
 export {
     generateRandomString,
     convertToDate,
     isAuthTokenExpired,
     capitalizeFirstLetter,
     getRandomChoice,
+    sleep,
 };

@@ -9,37 +9,43 @@ import { useAuth } from "../../../hooks/useAuth";
 type PropsType = {
     open?: boolean;
     onClose?: () => void;
+    onUploadComplete: () => void;
 };
 
 export default function UploadProfilImage({
     open,
     onClose,
+    onUploadComplete,
 }: PropsType) {
     const [file, setFile] = useState<Blob | MediaSource>();
     const [isImageLoaded, setIsImageLoaded] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
 
     const { token } = useAuth();
 
-    const [uploadProfilImage, {}] = useMutation(UPLOAD_PROFIL_IMAGE, {
-        context: {
-            headers: {
-                authorization: `JWT ${token}`,
+    const [uploadProfilImage, { error, loading }] = useMutation(
+        UPLOAD_PROFIL_IMAGE,
+        {
+            context: {
+                headers: {
+                    authorization: `JWT ${token}`,
+                },
             },
-        },
-    });
+        }
+    );
+
+    if (loading) return "Loading ...";
+    if (error) return `Error: ${error}`;
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
         if (file) {
             try {
                 await uploadProfilImage({
                     variables: { file: file },
                 });
                 setIsImageLoaded(false);
-                setSuccessMessage("Image uploaded successfully");
+                onUploadComplete();
             } catch (error) {
                 console.log("Error uploading image: ", error);
                 setErrorMessage(
@@ -63,8 +69,6 @@ export default function UploadProfilImage({
                     }
                 }}
             >
-                {/* <Header /> */}
-
                 <form onSubmit={handleSubmit}>
                     <div
                         className="flex flex-col items-center justify-center bg-white w-[700px] py-5 rounded-xl"
@@ -73,7 +77,6 @@ export default function UploadProfilImage({
                         <div className="text-2xl font-bold mb-5">
                             Upload Image
                         </div>
-                        <p className="text-green-600 mb-3">{successMessage}</p>
                         <p className="text-red-600 mb-3">{errorMessage}</p>
                         <label className="flex flex-col items-center justify-center w-3/4 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100">
                             <ImageDisplayed
