@@ -6,18 +6,26 @@ import { MdEdit } from "react-icons/md";
 import { HiDotsHorizontal } from "react-icons/hi";
 
 import { Link, Outlet } from "react-router-dom";
-import artImage from "../assets/images/art.jpg";
+
 import User from "../components/users/User";
 import { useAuth } from "../hooks/useAuth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UploadProfilImage from "../features/fileUpload/components/UploadProfilImage";
 
 const UserProfileLayout = () => {
     const { token, userData } = useAuth();
     const [open, setOpen] = useState(false);
 
+    const [profileUpdated, setProfileUpdated] = useState(false);
+
     const linkClassName =
         "text-gray-500 flex items-center gap-2 pb-4 border-b-2 border-white hover:text-black focus:text-black focus:border-b-2 focus:border-black focus:pb-4";
+
+    const env = import.meta.env;
+    const imageURI = env.VITE_BACKEND_IP_ADDRESS;
+    const coverPhoto = userData?.getCurrentUser.coverPhoto.baseUrl;
+    const uri = `http://${imageURI}:${env.VITE_BACKEND_PORT}${coverPhoto}`;
+    
 
     return (
         <div>
@@ -25,7 +33,7 @@ const UserProfileLayout = () => {
                 <div className="relative h-96 rounded-b">
                     <img
                         className="h-96 w-full object-cover rounded-b"
-                        src={artImage}
+                        src={uri}
                         alt="cover"
                     />
                     <div className="absolute start-12 -bottom-20">
@@ -33,16 +41,25 @@ const UserProfileLayout = () => {
                             <User
                                 authToken={token}
                                 className="object-cover border-4 border-white w-40 h-40 rounded-full"
+                                profileUpdated={profileUpdated}
+                                setProfileUpdated={setProfileUpdated}
                             />
-                            <Link to="" className="absolute bottom-3 right-3 bg-gray-600 text-white rounded-full p-2" 
-                            onClick={() => {
-                                setOpen(true);
-                            }}>
+                            <Link
+                                to=""
+                                className="absolute bottom-3 right-3 bg-gray-600 text-white rounded-full p-2"
+                                onClick={() => {
+                                    setOpen(true);
+                                }}
+                            >
                                 <IoMdCamera />
                             </Link>
                             <UploadProfilImage
                                 open={open}
                                 onClose={() => setOpen(false)}
+                                onUploadComplete={() => {
+                                    setProfileUpdated(!profileUpdated);
+                                    setOpen(false);
+                                }}
                             />
                         </div>
                     </div>
@@ -53,8 +70,11 @@ const UserProfileLayout = () => {
                         {userData?.getCurrentUser.username}
                     </div>
                     <div className="flex items-center space-x-2">
-                        <Link to="/user_info" className="flex items-center rounded border-2 px-2 py-1 gap-2 hover:bg-gray-100 font-bold">
-                            <MdEdit/>
+                        <Link
+                            to="/user_info"
+                            className="flex items-center rounded border-2 px-2 py-1 gap-2 hover:bg-gray-100 font-bold"
+                        >
+                            <MdEdit />
                             Edit Profil
                         </Link>
                     </div>
@@ -84,7 +104,9 @@ const UserProfileLayout = () => {
                         </div>
                     </div>
                     <div>
-                        <button className="flex items-center rounded border border-2 px-2 py-1"><HiDotsHorizontal/></button>
+                        <button className="flex items-center rounded border-2 px-2 py-1">
+                            <HiDotsHorizontal />
+                        </button>
                     </div>
                 </div>
 
@@ -93,8 +115,6 @@ const UserProfileLayout = () => {
                 </div>
             </div>
         </div>
-
-        
     );
 };
 
