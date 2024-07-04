@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import GET_CURRENT_USER from "../../lib/graphql/queries/getCurrentUser";
+import {GET_CURRENT_USER} from "../../lib/graphql/queries";
 import UserProfile from "./UserProfile";
 
 type PropsType = {

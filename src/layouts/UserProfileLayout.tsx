@@ -3,7 +3,6 @@ import { IoMdStats } from "react-icons/io";
 import { MdCollections } from "react-icons/md";
 import { Link, Outlet } from "react-router-dom";
 import artImage from "../assets/images/art.jpg";
-import profilImage from "../assets/images/profile.png";
 import User from "../components/users/User";
 import { useAuth } from "../hooks/useAuth";
 
@@ -31,7 +30,7 @@ const UserProfileLayout = () => {
                 </div>
 
                 <div className="mt-20 text-3xl font-bold">
-                    {userData.getCurrentUser.username}
+                    {userData?.getCurrentUser.username}
                 </div>
 
                 <div className="border border-gray-600 mt-6 border-opacity-10"></div>
