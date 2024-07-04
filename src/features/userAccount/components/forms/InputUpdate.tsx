@@ -7,6 +7,7 @@ type PropsType = {
     field: string;
     errors: FieldErrors<any>;
     type?: string;
+    options?: { value: string; label: string }[];
 };
 
 const InputUpdate = ({
@@ -15,10 +16,11 @@ const InputUpdate = ({
     field,
     errors,
     type = "text",
+    options = [],
 }: PropsType) => {
     const clsName =
-        "border-2 rounded-md text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600";
-    ("border-2 rounded-md text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600");
+        "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500";
+    const clsNameSelect = "block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500";
     const id = generateRandomString();
 
     const renderTextarea = () => (
@@ -27,13 +29,21 @@ const InputUpdate = ({
     const renderInput = () => (
         <input className={clsName} type={type} {...register(field)} />
     );
-
+    const renderSelect = () => (
+        <select className={clsNameSelect} {...register(field)}>
+            {options.map((option,index) => (
+                <option key={index} value={option.value}>
+                    {option.label}
+                </option>
+            ))}
+        </select>
+    )
     return (
         <>
             <label className="block text-base my-2 font-bold" htmlFor={id}>
                 {label}
             </label>
-            {type === "text" ? renderInput() : renderTextarea()}
+            {type === "textarea" ? renderTextarea(): type === "select" ? renderSelect(): renderInput()}
             {errors[field] && (
                 <p className="text-red-500">{`${errors[field]?.message}`}</p>
             )}
