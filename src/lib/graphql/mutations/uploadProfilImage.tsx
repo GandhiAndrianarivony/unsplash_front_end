@@ -1,9 +1,9 @@
 import { gql } from "@apollo/client";
 
-const UPLOAD_IMAGE = gql`
+const UPLOAD_PROFIL_IMAGE = gql`
     mutation ($file: Upload!) {
         uploadFile(file: $file)
     }
 `;
  
-export default UPLOAD_IMAGE;
+export default UPLOAD_PROFIL_IMAGE;
