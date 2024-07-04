@@ -14,6 +14,9 @@ const GET_CURRENT_USER = gql`
             profile {
                 baseUrl
             }
+            coverPhoto {
+                baseUrl
+            }
         }
     }
 `;
