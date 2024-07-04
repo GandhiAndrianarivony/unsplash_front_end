@@ -30,7 +30,7 @@ const InputUpdate = ({
 
     return (
         <>
-            <label className="block text-base mb-2 mt-2 font-bold" htmlFor={id}>
+            <label className="block text-base my-2 font-bold" htmlFor={id}>
                 {label}
             </label>
             {type === "text" ? renderInput() : renderTextarea()}

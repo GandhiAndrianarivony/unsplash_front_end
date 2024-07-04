@@ -1,36 +1,41 @@
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
-import UPLOAD_IMAGE from "../../../lib/graphql/mutations/uploadImage";
 import Button from "../../../components/ui/Button";
 import InputImage from "./InputImage";
 import ImageDisplayed from "./ImageDisplayed";
+import UPLOAD_PROFIL_IMAGE from "../../../lib/graphql/mutations/uploadProfilImage";
+import { useAuth } from "../../../hooks/useAuth";
 
 type PropsType = {
     open?: boolean;
-    authToken?: string | null;
     onClose?: () => void;
 };
 
-export default function UploadImage({ open, onClose, authToken }: PropsType) {
+export default function UploadProfilImage({
+    open,
+    onClose,
+}: PropsType) {
     const [file, setFile] = useState<Blob | MediaSource>();
     const [isImageLoaded, setIsImageLoaded] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
 
-    const [uploadImage, {}] = useMutation(UPLOAD_IMAGE, {
+    const { token } = useAuth();
+
+    const [uploadProfilImage, {}] = useMutation(UPLOAD_PROFIL_IMAGE, {
         context: {
             headers: {
-                authorization: `JWT ${authToken}`,
+                authorization: `JWT ${token}`,
             },
         },
     });
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); 
+        event.preventDefault();
 
         if (file) {
             try {
-                await uploadImage({
+                await uploadProfilImage({
                     variables: { file: file },
                 });
                 setIsImageLoaded(false);
