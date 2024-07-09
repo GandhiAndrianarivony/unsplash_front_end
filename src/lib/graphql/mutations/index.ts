@@ -6,6 +6,7 @@ import REMOVE_IMAGE_FROM_COLLECTION from "./removeImageFromCollection";
 import UPLOAD_IMAGE from "./uploadImage";
 import LIKE_IMAGE from "./likeImage";
 import UNLIKE_IMAGE from "./unlikeImage";
+import CHANGE_COVER_PHOTO from "./changeCoverPhoto";
 
 export {
     ADD_IMAGE_TO_COLLECTION,
@@ -16,4 +17,5 @@ export {
     UPLOAD_IMAGE,
     LIKE_IMAGE,
     UNLIKE_IMAGE,
+    CHANGE_COVER_PHOTO,
 };

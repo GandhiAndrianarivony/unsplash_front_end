@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client";
+import { DocumentNode, useMutation } from "@apollo/client";
 import { useState } from "react";
 import Button from "../../../components/ui/Button";
 import InputImage from "./InputImage";
@@ -10,12 +10,14 @@ type PropsType = {
     open?: boolean;
     onClose?: () => void;
     onUploadComplete: () => void;
+    mutation?: DocumentNode;
 };
 
 export default function UploadProfilImage({
     open,
     onClose,
     onUploadComplete,
+    mutation = UPLOAD_PROFIL_IMAGE,
 }: PropsType) {
     const [file, setFile] = useState<Blob | MediaSource>();
     const [isImageLoaded, setIsImageLoaded] = useState(false);
@@ -23,16 +25,13 @@ export default function UploadProfilImage({
 
     const { token } = useAuth();
 
-    const [uploadProfilImage, { error, loading }] = useMutation(
-        UPLOAD_PROFIL_IMAGE,
-        {
-            context: {
-                headers: {
-                    authorization: `JWT ${token}`,
-                },
+    const [uploadProfilImage, { error, loading }] = useMutation(mutation, {
+        context: {
+            headers: {
+                authorization: `JWT ${token}`,
             },
-        }
-    );
+        },
+    });
 
     if (loading) return "Loading ...";
     if (error) return `Error: ${error}`;
