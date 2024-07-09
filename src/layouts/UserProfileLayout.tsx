@@ -9,32 +9,29 @@ import { Link, Outlet } from "react-router-dom";
 
 import User from "../components/users/User";
 import { useAuth } from "../hooks/useAuth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import UploadProfilImage from "../features/fileUpload/components/UploadProfilImage";
+import { CHANGE_COVER_PHOTO } from "../lib/graphql/mutations";
+import CoverPhoto from "../components/users/CoverPhoto";
 
 const UserProfileLayout = () => {
     const { token, userData } = useAuth();
     const [open, setOpen] = useState(false);
+    const [openCover, setOpenCover] = useState(false);
 
     const [profileUpdated, setProfileUpdated] = useState(false);
+    const [coverPhotoUpdated, setCoverPhotoUpdated] = useState(false);
 
     const linkClassName =
         "text-gray-500 flex items-center gap-2 pb-4 border-b-2 border-white hover:text-black focus:text-black focus:border-b-2 focus:border-black focus:pb-4";
 
-    const env = import.meta.env;
-    const imageURI = env.VITE_BACKEND_IP_ADDRESS;
-    const coverPhoto = userData?.getCurrentUser.coverPhoto.baseUrl;
-    const uri = `http://${imageURI}:${env.VITE_BACKEND_PORT}${coverPhoto}`;
-    
-
     return (
-        <div>
+        <>
             <div className="px-44 sm:px-6">
                 <div className="relative h-96 rounded-b">
-                    <img
-                        className="h-96 w-full object-cover rounded-b"
-                        src={uri}
-                        alt="cover"
+                    <CoverPhoto
+                        coverPhotoUpdated={coverPhotoUpdated}
+                        setCoverPhotoUpdated={setCoverPhotoUpdated}
                     />
                     <div className="absolute start-12 -bottom-20">
                         <div className="relative">
@@ -53,16 +50,15 @@ const UserProfileLayout = () => {
                             >
                                 <IoMdCamera />
                             </Link>
-                            <UploadProfilImage
-                                open={open}
-                                onClose={() => setOpen(false)}
-                                onUploadComplete={() => {
-                                    setProfileUpdated(!profileUpdated);
-                                    setOpen(false);
-                                }}
-                            />
                         </div>
                     </div>
+                    <Link
+                        to=""
+                        className="absolute bottom-[1rem] right-[2.5rem] bg-gray-600 text-white rounded-full p-2"
+                        onClick={() => setOpenCover(true)}
+                    >
+                        <IoMdCamera />
+                    </Link>
                 </div>
 
                 <div className="flex justify-between mt-20">
@@ -114,7 +110,26 @@ const UserProfileLayout = () => {
                     <Outlet />
                 </div>
             </div>
-        </div>
+            {/* Upload user profile photo */}
+            <UploadProfilImage
+                open={open}
+                onClose={() => setOpen(false)}
+                onUploadComplete={() => {
+                    setProfileUpdated(!profileUpdated);
+                    setOpen(false);
+                }}
+            />
+            {/* Upload cover photo */}
+            <UploadProfilImage
+                open ={openCover}
+                onClose={() => setOpenCover(false)}
+                mutation={CHANGE_COVER_PHOTO}
+                onUploadComplete={() => {
+                    setCoverPhotoUpdated(!coverPhotoUpdated);
+                    setOpenCover(false);
+                }}
+            />
+        </>
     );
 };
 
